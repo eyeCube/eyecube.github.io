@@ -1,0 +1,10 @@
+
+body {
+    font-family: "Courier New", "Courier", monospace;
+    background-color: #061c2b;
+    color: skyblue;
+}
+
+#hud {
+    font-size: 24px;
+}
