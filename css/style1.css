@@ -1,10 +1,27 @@
 
 body {
     font-family: "Courier New", "Courier", monospace;
-    background-color: #061c2b;
-    color: skyblue;
+    background-color: #082114;
+    color: floralwhite;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#game {
+    min-width: 800px;
+}
+
+#title {
+    display: block;
+    margin: 0 auto;
 }
 
 #hud {
-    font-size: 24px;
+    display: block;
+    margin: 0 auto;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+canvas {
 }
