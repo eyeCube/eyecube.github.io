@@ -61,7 +61,8 @@ var Game = {
         y: 0,
     },
     room: {
-        height: 1000,
+        current: ROOM_TOWN,
+        height: 25,
         width: 80,
     },
 };
@@ -94,7 +95,7 @@ Game.init = function () {
     this.logElem.style.width = (this.screen.width * w).toString() + "px";
     this.logElem.style.height = "90px";
 
-    this._generateMap();
+    //this._generateMap();
     this._generateMap_town();
     this.scheduler = new ROT.Scheduler.Action(); // actor queue
     this.engine = new ROT.Engine(this.scheduler); // controls scheduler
@@ -112,6 +113,7 @@ Game.addToGrid = function (obj) { this.stuff[obj.x + "," + obj.y] = obj; };
 Game.removeFromGrid = function (obj) { this.stuff[obj.x + "," + obj.y] = null; };
 Game.addFlora = function (obj) { this.floraGrid[obj.x + "," + obj.y] = obj; };
 Game.removeFlora = function (obj) { this.floraGrid[obj.x + "," + obj.y] = null; };
+Game.roomName = function () { return ROOMNAMES[this.room.current] };
 Game.tileat = function (x, y) { return this.map[x + "," + y]; };
 Game.wallat = function (x, y) { return this._terrainData[this.map[x + "," + y]].solid; };
 Game.florat = function (x, y) { return this.floraGrid[x + "," + y]; };
@@ -390,44 +392,86 @@ Game._generateMap = function () {
 };
 
 Game._generateMap_town = function () {
-    let listener = function () {
-        LOG(this.responseText);
+    for (let i = 0; i < this.room.height; i++) {
+        for (let j = 0; j < this.room.width; j++) {
+            this.setTile(j, i, "air");
+            this.tilesSeen[j + "," + i] = true;
+        }
     }
-    let oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", listener);
-    oReq.open("GET", "/../levels/town.txt");
+    LOG('hello');
+    getTextFile("/../levels/town.txt")
+        .then(function (fileData) {
+            let lines = fileData.split("\n");
+            let tile;
+            for (let y = 0, line; y < lines.length; y++) {
+                line = lines[y];
+                LOG(line.length);
+                for (let x = 0; x < line.length; x++) {
+                    if (line[x] == "\n") { continue }
+                    tile = TILES_FROMTOWNMAP[line[x]];
+                    //LOG(x + "," + y);
+                    if (tile === undefined) { continue }
+                    Game.setTile(x, y, tile);
+                }
+            }
+        })
+        .catch(function (xhr) {
+            LOG(xhr);
+        });
 };
 
-
+Game.Tile = function (char, fgcol, bgcol, opaque, solid, swim, climb, breathe) {
+    this.char = char;
+    this.fgcol = fgcol;
+    this.bgcol = bgcol;
+    this.opaque = opaque;
+    this.solid = solid;
+    this.swim = swim;
+    this.climb = climb;
+    this.breathe = breathe;
+};
 Game._terrainData = {
-    "air": { // underwater air pocket
-        char: " ", fgcol: "transparent", bgcol: BLACK,
-        opaque: false, solid: false, swim: false, climb: false, breathe: true,
-    },
-    "sky": { // air above surface
-        char: " ", fgcol: "transparent", bgcol: SKYBLUE,
-        opaque: false, solid: false, swim: false, climb: false, breathe: true,
-    },
-    "water": {
-        char: "smalldot", fgcol: "transparent", bgcol: SEAGREEN,
-        opaque: false, solid: false, swim: true, climb: false, breathe: false,
-    },
-    "surf": {
-        char: "~", fgcol: "transparent", bgcol: SEAFOAM,
-        opaque: false, solid: false, swim: true, climb: false, breathe: true,
-    },
-    "surfrough": {
-        char: "~~", fgcol: "transparent", bgcol: SEAFOAM,
-        opaque: false, solid: false, swim: true, climb: false, breathe: true,
-    },
-    "rock": {
-        char: "noise3", fgcol: "transparent", bgcol: BROWN,
-        opaque: true, solid: true, swim: false, climb: false, breathe: false,
-    },
-    "ladder": {
-        char: "#", fgcol: "transparent", bgcol: BLACK,
-        opaque: false, solid: false, swim: false, climb: true, breathe: true,
-    },
+/*  boolean values:                 opaque solid swim climb breathe */
+    "air": new Game.Tile(
+        " ", "transparent", BLACK, false, false, false, false, true),
+    "sky": new Game.Tile(
+        " ", "transparent", SKYBLUE, false, false, false, false, true),
+    "water": new Game.Tile(
+        "smalldot", "transparent", SEAGREEN, false, false, true, false, false),
+    "surf": new Game.Tile(
+        "~", "transparent", SEAFOAM, false, false, true, false, true),
+    "surfrough": new Game.Tile(
+        "~~", "transparent", SEAFOAM, false, false, true, false, true),
+    "rock": new Game.Tile(
+        "noise2", "transparent", BROWN, true, true, false, false, false),
+    "falserock": new Game.Tile(
+        "noise3", "transparent", BROWN, true, true, false, false, false),
+    "ladder": new Game.Tile(
+        "#", "transparent", BROWN, false, false, false, true, true),
+    "doorclosed": new Game.Tile(
+        "+", "transparent", BROWN, true, true, false, false, true),
+    "dooropen": new Game.Tile(
+        "-", "transparent", BROWN, false, false, false, false, true),
+    "roofpos": new Game.Tile(
+        "/", "transparent", BROWN, false, true, false, false, false),
+    "roofneg": new Game.Tile(
+        "\\", "transparent", BROWN, false, true, false, false, false),
+    "rooftop": new Game.Tile(
+        "_", "transparent", BROWN, false, true, false, false, false),
+    "chimney": new Game.Tile(
+        "L", "transparent", BROWN, false, true, false, false, false),
+    "well": new Game.Tile(
+        "u", "transparent", BLACK, false, false, false, false, true),
+    "windowright": new Game.Tile(
+        "]", "transparent", SEAFOAM, false, true, false, false, false),
+    "windowleft": new Game.Tile(
+        "[", "transparent", SEAFOAM, false, true, false, false, false),
+    "antenna": new Game.Tile(
+        "|", "transparent", BROWN, false, true, false, false, false),
+    "star": new Game.Tile(
+        "*", "transparent", BLACK, false, false, false, false, true),
+    "stairsright": new Game.Tile(
+        "stairsright", "transparent", BLACK, false, true, false, false, false),
 };
 
 // callback functions

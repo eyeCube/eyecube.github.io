@@ -1,4 +1,4 @@
-/*
+﻿/*
  * file
  * functions for dealing with files
  */
@@ -22,10 +22,3 @@ function getTextFile(path, callback) {
 		xhr.send();
 	});
 }
-getTextFile("/../levels/town.txt")
-    .then(function(fileData) {
-    	LOG(fileData);
-    })
-    .catch(function(xhr) {
-    	LOG(xhr);
-    });

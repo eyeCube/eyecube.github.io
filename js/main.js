@@ -7,22 +7,19 @@ Game.init();
 var pc = Player.init();
 Hud.init();
 Game.start();
-Game.msgSeed(`Welcome ${pc.name} to the Seas of Morudia.`);
+Game.msgSeed(`Welcome ${pc.name} to ${Game.roomName()}.`);
 
 
-
+/*
 //TESTING
 let c = Mon.new('c', 50, 20);
 let f = Things.new('^', 63, 0);
 Flora.create_seaweed(16, 24, 2);
 Flora.create_seaweed(19, 24, 5);
 let g = Flora.create_seaweed(21, 24, 4);
-/*for (i of g) {
-    i.kill();
-}*/
 f.bgcol = SKYBLUE;
 //
-
+*/
 
 
 

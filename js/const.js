@@ -2,16 +2,17 @@
  *  constants
  */
 
+"use strict";
 
 
 /*
  * global simple functions to make things prettier
  */
 
-const CHAR = code => String.fromCharCode(code)
-const POINTDIR = (xf, yf, xt, yt) => Math.atan2(yt - yf, xt - xf)
-const REMOVED = (arrayOld, item) => arrayOld.filter(el => el !== item)
-const ITERABLE = obj => obj != null && typeof obj[Symbol.iterator] === 'function'
+const CHAR = code => String.fromCharCode(code);
+const POINTDIR = (xf, yf, xt, yt) => Math.atan2(yt - yf, xt - xf);
+const REMOVED = (arrayOld, item) => arrayOld.filter(el => el !== item);
+const ITERABLE = obj => obj != null && typeof obj[Symbol.iterator] === 'function';
 const LOG = (x) => console.log(x);
 
 const INCLUDES = (lis, value) => {
@@ -19,8 +20,7 @@ const INCLUDES = (lis, value) => {
         if (i === value) { return true; }
     }
     return false;
-}
-let i;
+};
 
 
 
@@ -36,7 +36,7 @@ const TILESET_SOURCE = "/../tilesets/terminal_12x16.png";
 
 // gameplay constants //
 
-const SURFY = 8;
+const SURFY = 23;
 const COST_MOVE = 10;
 const COST_PICKUP = 10;
 const COST_FIGHT = 10;
@@ -62,7 +62,7 @@ const SKYBLUE = "#265eb5";
 
 // Flags
 
-i = 0;
+let i = 0;
 const NEEDSAIR = i; i += 1;
 const CANCLIMB = i; i += 1; // can climb ladders
 const SINKS = i; i += 1;
@@ -75,10 +75,18 @@ const BLEEDING = i; i += 1;
  * data objects
  */
 
-ASCIICHARMAP = {
-//  values starting at 0 and are x, y coordinates on the tileset...png.
-//  values will all be stretched to become the actual pixel coordinates
-//  in the image. For now to keep it prettier, just do the grid coords.
+i = 0;
+const ROOM_TOWN = "town";
+const ROOM_SEAS = "seas";
+const ROOMNAMES = {
+    "town": "Wessenerville",
+    "seas": "the Seas of Morudia",
+}
+
+const ASCIICHARMAP = {
+    //  values starting at 0 and are x, y coordinates on the tileset...png.
+    //  values will all be stretched to become the actual pixel coordinates
+    //  in the image. For now to keep it prettier, just do the grid coords.
     "a": [1, 6],
     "b": [2, 6],
     "c": [3, 6],
@@ -189,4 +197,25 @@ ASCIICHARMAP = {
     "noise1": [0, 11],
     "noise2": [1, 11],
     "noise3": [2, 11],
-}
+    "stairsright": [5, 14],
+};
+
+const TILES_FROMTOWNMAP = {
+    "0": "rock",
+    "/": "roofpos",
+    "\\": "roofneg",
+    "_": "rooftop",
+    "L": "chimney",
+    "+": "dooropen",
+    "u": "well",
+    "#": "ladder",
+    "]": "windowright",
+    "[": "windowleft",
+    "|": "antenna",
+    "*": "star",
+    "F": "falserock",
+    "S": "stairsright",
+    "`": "surfrough",
+    "~": "surf",
+    ",": "water",
+};

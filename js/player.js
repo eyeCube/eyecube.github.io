@@ -123,18 +123,20 @@ Player.performAction = function (ev) {
 // resume engine, see if any other creature wants to take a turn
 Player.pass_torch = function () {
 
-    // reset tiles to not visible
-    for (let i = 0; i < Game.view.height; i++) {
-        for (let j = 0; j < Game.view.width; j++) {
-            let xmap = j + Game.view.x;
-            let ymap = i + Game.view.y;
-            Game.tilesSeen[xmap + "," + ymap] = false;
+    if (!Game.room.current === ROOM_TOWN) {
+        // reset tiles to not visible
+        for (let i = 0; i < Game.view.height; i++) {
+            for (let j = 0; j < Game.view.width; j++) {
+                let xmap = j + Game.view.x;
+                let ymap = i + Game.view.y;
+                Game.tilesSeen[xmap + "," + ymap] = false;
+            }
         }
-    }
 
-    pc.fov.compute(pc.x, pc.y, pc.stats.sight, function (x, y, r, visibility) {
-        Game.tilesSeen[x + "," + y] = true;
-    });
+        pc.fov.compute(pc.x, pc.y, pc.stats.sight, function (x, y, r, visibility) {
+            Game.tilesSeen[x + "," + y] = true;
+        });
+    }
 
     window.removeEventListener("keydown", Player.performAction); // ignore pc input till next pc turn
     Game.engine.unlock(); // perform other actor turns
