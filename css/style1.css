@@ -1,0 +1,43 @@
+﻿
+
+html, body {
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: #082114;
+    font-weight: 800;
+}
+
+body {
+    font-family: "Courier New", "Courier", monospace;
+    color: floralwhite;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#game {
+    min-width: 800px;
+}
+
+#title {
+    display: block;
+    margin: 0 auto;
+}
+
+#hud {
+    background-color: black;
+    display: block;
+    margin: 0 auto;
+    font-size: 15px;
+}
+
+#log {
+    text-align: left;
+    background-color: #000000;
+    display: block;
+    margin: 0 auto;
+    overflow: scroll;
+}
+
+canvas {
+    margin: 0px;
+}
