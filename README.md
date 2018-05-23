@@ -1,3 +1,3 @@
 # eyecube.github.io
 
-AquaRogueJS: Open-source Roguelike being developed in Javascript
+Sea of Green: a browser-based, open-source, aquatic-themed roguelike being developed using ROT.js
