@@ -1,3 +1,3 @@
 # eyecube.github.io
 
-Sea of Green: a browser-based, open-source, aquatic-themed roguelike being developed using ROT.js
+Sea of Green: an open-source, browser-based, side-scrolling, aquatic-themed roguelike being developed using ROT.js
