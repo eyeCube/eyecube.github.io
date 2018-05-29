@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  things
  *  monsters
  *  AIs
@@ -30,7 +30,6 @@ Things.new = function (char, x, y) {
 
     return thing;
 };
-
 // create a thing w/ an "act" function
 Things.new_actor = function (char, x, y) {
     let thing = this.new(char, x, y);
@@ -40,7 +39,6 @@ Things.new_actor = function (char, x, y) {
 
     return thing;
 };
-
 
 // object containing stat info for a thing
 Things.Stats = function () {
@@ -53,7 +51,6 @@ Things.Stats = function () {
     this.armor = 0;
     this.sight = 0;
 };
-
 
 // Thing class
 // To create a Thing, call Things.new() or Things.new_actor();
@@ -102,15 +99,15 @@ Things.Thing.prototype.destroy = function () {
 
 Things.Thing.prototype.ai_coward = function () {
     let pdir = POINTDIR(this.x, this.y, pc.x, pc.y) + Math.PI;
-    let dx = Math.round(Math.cos(pdir));
-    let dy = Math.round(Math.sin(pdir));
+    let dx = DIRX(pdir);
+    let dy = DIRY(pdir);
 
     Actions.move(this, dx, dy);
 };
 Things.Thing.prototype.ai_aggressive = function () {
     let pdir = POINTDIR(this.x, this.y, pc.x, pc.y);
-    let dx = Math.round(Math.cos(pdir));
-    let dy = Math.round(Math.sin(pdir));
+    let dx = DIRX(pdir);
+    let dy = DIRY(pdir);
 
     Actions.move(this, dx, dy);
 };
@@ -120,14 +117,12 @@ Things.Thing.prototype.ai_aggressive = function () {
 /* Other Thing-related namespaces... */
 /*-----------------------------------*/
 
-
 /*
  * monsters
  */
-
 var Mon = {
     bestiary: {
-        'c': { hp: 12, spd: 5, pow: 1, arm: 0 },
+        'c': { hp: 1, spd: 5, pow: 1, arm: 0 },
         'f': { hp: 1, spd: 10, pow: 0, arm: 0 },
         //911: { hp: 1, spd: 5, pow: 1, arm: 0 },
     },
@@ -144,11 +139,9 @@ Mon.new = function (char, x, y) {
     return mon;
 };
 
-
 /*
  * inventory
  */
-
 var Inv = {
 
 };
@@ -158,16 +151,14 @@ Inv.Inventory = function () {
     this.remove = function (thing) { delete this.dict[thing.id]; }
 };
 
-
 /*
  * flora
  */
-
 var Flora = {
     dict: {},
     _floraData: {
-        ')': { "fgcol": "transparent", "bgcol": SEAGREEN, },
-        '(': { "fgcol": "transparent", "bgcol": SEAGREEN, },
+        ')': { "fgcol": "transparent", "bgcol": DARK, },
+        '(': { "fgcol": "transparent", "bgcol": DARK, },
     },
 };
 Flora.add = function (flor) { this.dict[flor.id] = flor };
@@ -181,10 +172,10 @@ Flora.new = function (char, x, y) {
 Flora.create_seaweed = function (x, y, height) {
     let lis = [];
     let ch;
-    if (y % 2 == 0) { ch = ')'; } else ch = '(';
+    if (y % 2 === 0) { ch = ')'; } else ch = '(';
     for (let i = 0; i < height; i++) {
         let flor = this.new(ch, x, y - i);
-        if (ch == ')') { ch = '(' } else ch = ')'
+        if (ch === ')') { ch = '(' } else ch = ')'
         flor.act = flor.act_seaweed;
         Game.addActor(flor, true);
         lis.push(flor);
@@ -209,11 +200,9 @@ Flora.Flora.prototype.act_seaweed = function () {
     if (this.char === ')') { this.char = '(' } else { this.char = ')' }
 };
 
-
 /*
  * Action functions, for use in actor's "act" method
  */
-
 var Actions = {
 
 };
@@ -233,13 +222,23 @@ Actions.move = function (actor, dx, dy) {
         dy = 1;
     }
     // get appropriate action //
-    if (dx === 0 && dy === 0) { //rest
+    let xto = actor.x + dx;
+    let yto = actor.y + dy;
+    let thatcell = Game.cell(xto, yto);
+    // open doors
+    if (thatcell.name === "doorclosed" && actor.on(CANOPEN)) {
+        Game.setTile(xto, yto, "dooropen")
+        dx = 0;
+        xto = actor.x;
+        thatcell = Game.cell(xto, yto);
+        Game.queueActor(TURN_LENGTH);
+    }
+    // wait
+    if (dx === 0 && dy === 0) { 
         Game.queueActor(TURN_LENGTH);
         return true;
     }
-    let xto = actor.x + dx;
-    let yto = actor.y + dy;
-    if (!Game.wallat(xto, yto)) {
+    if (!(thatcell.solid)) {
         // is a thing there?
         let thing = Game.thingat(xto, yto);
         if (thing) {
@@ -267,12 +266,12 @@ Actions.fight = function (atkr, dfnr) {
     let dmg = atkr.stats.power - dfnr.stats.armor;
     dfnr.hurt(dmg);
     Game.queueActor(COST_FIGHT * AVG_SPEED / atkr.stats.speed);
-    if (atkr == pc) {
+    if (atkr.id === pc.id) {
         let h;
         if (dfnr.stats.hp > 0) { h = "hit" } else { h = "kill" }
         Game.msg(`You ${h} the ${dfnr.name}`);
     }
-    else if (dfnr == pc) { Game.msg(`The ${atkr.name} hit you`) }
+    else if (dfnr.id === pc.id) { Game.msg(`The ${atkr.name} hit you`) }
 };
 // pick up a thing
 Actions.pickup = function (actor, item) {
