@@ -5,22 +5,59 @@
 "use strict";
 
 
+const BREAK = Symbol("break");
+
 /*
- * global simple functions to make things prettier
+ * simple, global, constant functions to prettify
  */
 
+const DIRX = rads => Math.round(Math.cos(rads));
+const DIRY = rads => -Math.round(Math.sin(rads));
+const DIST = (xf, yf, xt, yt) => Math.sqrt((yt - yf) ** 2 + (xt - xf) ** 2);
 const CHAR = code => String.fromCharCode(code);
-const POINTDIR = (xf, yf, xt, yt) => Math.atan2(yt - yf, xt - xf);
-const REMOVED = (arrayOld, item) => arrayOld.filter(el => el !== item);
-const ITERABLE = obj => obj != null && typeof obj[Symbol.iterator] === 'function';
-const LOG = (x) => console.log(x);
-
+const POINTDIR = (xf, yf, xt, yt) => Math.atan2(yf - yt, xt - xf); // swap y because our grid is inverted in y direction
+const REMOVED = (arrayOld, item) => arrayOld.filter(el => el !== item); // return array w/ item removed
+const ISITER = obj => obj !== null && typeof obj[Symbol.iterator] === 'function';
+const LOG = x => console.log(x);
+const RADTODEG = x => x * 360 / (Math.PI * 2);
+const DDEGREES = (deg1, deg2) => { // difference btn. angles
+    return ((((deg1 - deg2) % 360) + 540) % 360) - 180;
+};
 const INCLUDES = (lis, value) => {
     for (let i of lis) {
         if (i === value) { return true; }
     }
     return false;
 };
+const RESTRICTED = (value, _min, _max) => {
+    value = Math.max(value, _min);
+    value = Math.min(value, _max);
+    return value;
+};
+// step over a bresenham line, performing a callback at each point on the line
+// callback function takes value, index, len
+// value is [x,y]; index is a number
+// len is length of the array
+// returns BREAK to stop the loop.
+const STEPLINE = (x1, y1, x2, y2, callback) => {
+    let points = Algo.bresenham(x1, y1, x2, y2);
+    let len = points.length;
+    for (let i = 0; i < len; i++) {
+        if (callback([points[i][0], points[i][1]], i, len) == BREAK) {
+            break;
+        }
+    }
+};
+// read text (and do something with it)
+// fxn is a function that uses fileData (passed in to fxn automatically)
+// read fileData as a string and do whatever you want with it
+function READTEXT(path, fxn, callback) {
+    _getTextFile(path, callback)
+        .then(fxn)
+        .catch(function (xhr) {
+            LOG(xhr);
+        });
+}
 
 
 
@@ -32,14 +69,15 @@ const INCLUDES = (lis, value) => {
 
 const TILEW = 12;
 const TILEH = 16;
-const TILESET_SOURCE = "/../tilesets/terminal_12x16.png";
+const TILESET_SOURCE = "/../tilesets/green_12x16.png";
 
 // gameplay constants //
 
-const SURFY = 23;
+const SURFY = 2;//3;
 const COST_MOVE = 10;
 const COST_PICKUP = 10;
 const COST_FIGHT = 10;
+const COST_FIRE = 10;
 const AVG_SPEED = 10;
 const TURN_LENGTH = 10;
 const DEPTHO2DIV = 100; // meters down before oxygen loss increases by multiple of 1
@@ -48,40 +86,56 @@ const PRESSURE = 100; //
 
 // Colors //
 
-const WHITE = "#ffffff";
+const WHITE = "#aaffdd";
+const NEUTRAL = "#1c8a51";
+const DARK = "#133020";
+const DEEP = "#18221d";
 const BLACK = "#000000";
-const BROWN = "#5b3927";
-const NEUTRAL = "#3c823d";
-const DEEP = "#182219";
+// unused...
 const RED = "#ff240e";
+const DARKRED = "#630000";
+const GREEN = "#009900";
+const DARKGREEN = "#002c00";
+const BROWN = "#9c8065";
 const YELLOW = "#f3c512";
-const GREEN = "#00d131";
-const SEAGREEN = "#21401e";
-const SEAFOAM = "#4cc293";
+const BLUE = "#095573"
+const SEAGREEN = "#48a93c";
+const SEAFOAM = "#8eed70";
 const SKYBLUE = "#265eb5";
+
 
 // Flags
 
-let i = 0;
-const NEEDSAIR = i; i += 1;
-const CANCLIMB = i; i += 1; // can climb ladders
-const SINKS = i; i += 1;
-const FLOATS = i; i += 1;
-const ISACTOR = i; i += 1;
-const BLEEDING = i; i += 1;
+const NEEDSAIR = Symbol();
+const CANCLIMB = Symbol(); // can climb ladders
+const CANOPEN = Symbol(); // can open doors (and conatiners?)
+const SINKS = Symbol();
+const FLOATS = Symbol();
+const ISACTOR = Symbol();
+const BLEEDING = Symbol();
 
 
 /*
  * data objects
  */
 
-i = 0;
 const ROOM_TOWN = "town";
 const ROOM_SEAS = "seas";
 const ROOMNAMES = {
     "town": "Wessenerville",
     "seas": "the Seas of Morudia",
-}
+};
+
+const DIRECTIONS = {
+    "e": 0,
+    "ne": 45,
+    "n": 90,
+    "nw": 135,
+    "w": 180,
+    "sw": 225,
+    "s": 270,
+    "se": 315,
+};
 
 const ASCIICHARMAP = {
     //  values starting at 0 and are x, y coordinates on the tileset...png.
@@ -186,6 +240,7 @@ const ASCIICHARMAP = {
     "~": [14, 7],
     "ae": [1, 9],
     "AE": [2, 9],
+    "bigdot": [9, 15],
     "smalldot": [10, 15],
     "alpha": [0, 14],
     "beta": [1, 14],
@@ -197,25 +252,28 @@ const ASCIICHARMAP = {
     "noise1": [0, 11],
     "noise2": [1, 11],
     "noise3": [2, 11],
-    "stairsright": [5, 14],
+    "ff": [4, 15],
 };
 
 const TILES_FROMTOWNMAP = {
     "0": "rock",
+    "%": "wood",
     "/": "roofpos",
     "\\": "roofneg",
     "_": "rooftop",
     "L": "chimney",
-    "+": "dooropen",
-    "u": "well",
+    "+": "doorclosed",
+    "!": "fountain",
     "#": "ladder",
     "]": "windowright",
     "[": "windowleft",
     "|": "antenna",
     "*": "star",
     "F": "falserock",
-    "S": "stairsright",
     "`": "surfrough",
     "~": "surf",
     ",": "water",
+    /*" ": "water",
+    ".": "water",
+    "*": "water", //make everything underwater!!!*/
 };

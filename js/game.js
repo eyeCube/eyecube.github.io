@@ -27,13 +27,15 @@ Hud._getText = function () {
     return `[${pc.name}] <span id="hud_hp">HP:${pc.stats.hp}(${pc.stats.hpcap})</span>
 Spd:${pc.stats.speed} Pow:${pc.stats.power} Arm:${pc.stats.armor}
 <span id="hud_o2">O<sub>2</sub>:${Math.floor(pc.stats.o2 / pc.stats.o2cap * 100)}%</span>
-<span id="hud_depth">P:${ Math.max(0, pc.y - SURFY)}m</span>
+<span id="hud_depth">P:${ Math.max(0, Game.bars(pc.y))}a</span>
 T:${Game.time()}`;
 };
 
 
 // game
 var Game = {
+    title: "Sea of Green",
+    version: "0.1.1",
     // grids
     map: {}, // terrain
     stuff: {}, // things
@@ -43,12 +45,14 @@ var Game = {
     logElem: document.getElementById("log"),
     msgHistory: [],
     fontSize: 17,
-    bgColor: SEAGREEN,
+    bgColor: NEUTRAL,
     display: null,
     scheduler: null,
     engine: null,
     chrons: 0, // chron: smallest unit of time which can pass.
     turn: 0, // turn: average time it takes an average joe to do an average task.
+    msg_y: 0, // scroll pos for msg log
+    logh: 90, // height of msg log
     //
     screen: {
         height: 25,
@@ -61,7 +65,7 @@ var Game = {
         y: 0,
     },
     room: {
-        current: ROOM_TOWN,
+        current: ROOM_SEAS,
         height: 25,
         width: 80,
     },
@@ -82,7 +86,7 @@ Game.init = function () {
         width: this.screen.width,
         height: this.screen.height,
         //tileColorize: true,
-        bg: "transparent",
+        bg: BLACK,
         layout: "tile",
         tileWidth: w,
         tileHeight: h,
@@ -93,10 +97,11 @@ Game.init = function () {
     let elem = document.getElementById("game");
     elem.appendChild(this.display.getContainer());
     this.logElem.style.width = (this.screen.width * w).toString() + "px";
-    this.logElem.style.height = "90px";
+    this.logElem.style.height = this.logh.toString() + "px";
+    /*this.titleElem = document.getElementById("title");
+    this.titleElem.innerHTML = this.title;*/
 
-    //this._generateMap();
-    this._generateMap_town();
+    this._generateMap();
     this.scheduler = new ROT.Scheduler.Action(); // actor queue
     this.engine = new ROT.Engine(this.scheduler); // controls scheduler
     this.addActor(new this.turnIterator(), true);
@@ -106,7 +111,7 @@ Game.init = function () {
 // call to begin running actor's "act" functions in order of the queue
 Game.start = function () { this.engine.start(); };
 Game.setTile = function (x, y, strng) { Game.map[x + "," + y] = strng; };
-Game.bars = function (depth) { return depth / 10 + 1; };
+Game.bars = function (depth) { return Math.max(0, (depth - SURFY) / 10) + 1; };
 Game.addActor = function (actor, repeat = false) { this.scheduler.add(actor, repeat); };
 Game.removeActor = function (actor) { this.scheduler.remove(actor); };
 Game.addToGrid = function (obj) { this.stuff[obj.x + "," + obj.y] = obj; };
@@ -120,7 +125,7 @@ Game.florat = function (x, y) { return this.floraGrid[x + "," + y]; };
 Game.thingat = function (x, y) { return this.stuff[x + "," + y]; };
 Game.monat = function (x, y) {
     let mon = this.stuff[x + "," + y];
-    if (mon && mon.isActor) { return mon; }
+    if (mon && mon.on(ISACTOR)) { return mon; }
     else { return null; }
 };
 Game.time = function () {
@@ -128,13 +133,22 @@ Game.time = function () {
     let spd = AVG_SPEED;
     let t = this.chrons / spd; // total seconds
     let s = (Math.floor(t % 60)).toString();
-    if (s.length == 1) { s = "0" + s }
+    if (s.length === 1) { s = "0" + s }
     let m = (Math.floor((t / 60) % 60)).toString();
-    if (m.length == 1) { m = "0" + m }
+    if (m.length === 1) { m = "0" + m }
     let h = (Math.floor((t / (60 * 60)) % 24)).toString();
-    if (h.length == 1) { h = "0" + h }
+    if (h.length === 1) { h = "0" + h }
     strng += `${h}:${m}:${s}`;
     return strng;
+};
+Game.roomLoad = function (rm) {
+    this.room.current = rm;
+    if (rm === ROOM_SEAS) {
+        this._generateMap();
+    }
+    else if (rm === ROOM_TOWN) {
+        this._generateMap_town();
+    }
 };
 
 Game.update = function () {
@@ -159,20 +173,20 @@ West ${ keys['w']}`;
 
 // get an object containing info about a cell
 Game.cell = function (x, y) {
-    let data;
+    let data, name;
     if (x < 0 || x >= this.room.width || y < 0 || y >= this.room.height) {
-        data = this._terrainData["rock"];
-    } else {
-        data = this._terrainData[this.map[x + "," + y]];
-    }
+        name = "rock";
+    } else { name = this.map[x + "," + y]; }
+    data = this._terrainData[name];
     return {
-        "x": x, "y": y, char: data.char, fgcol: data.fgcol,
-        bgcol: data.bgcol, opaque: data.opaque, solid: data.solid,
-        swim: data.swim, breathe: data.breathe, climb: data.climb,
+        "x": x, "y": y, name: name,
+        char: data.char, fgcol: data.fgcol, bgcol: data.bgcol,
+        opaque: data.opaque, solid: data.solid,
+        swim: data.swim, climb: data.climb, breathe: data.breathe,
     }
 };
 
-// queue an actor in the scheduler
+// queue the current actor in the scheduler
 // cost is the amount of time until the actor's next turn
 Game.queueActor = function (cost) {
     this.scheduler.setDuration(cost);
@@ -183,14 +197,14 @@ Game.draw = function (x, y, char, fgcol, bgcol) {
     let xx = x - this.view.x;
     let yy = y - this.view.y;
 
-    if (char != undefined) {
+    if (char !== undefined) {
         this.display.draw(xx, yy, char, fgcol, bgcol);
     }
     else {
         let thing = Game.thingat(x, y);
         if (!thing) thing = Game.florat(x, y);
-        if (thing) { Game.draw_obj(thing); }
-        else { Game.draw_obj(Game.cell(x, y)); }
+        if (thing) { Game.draw_obj(thing) }
+        else { Game.draw_obj(Game.cell(x, y)) }
     }
 };
 // draw an object
@@ -206,7 +220,7 @@ Game.msg = function (entry) {
     //  stack multiple repeated messages
     let prev = this.msgHistory[this.msgHistory.length - 1];
     let prevtext = prev[1];
-    if (prevtext == entry) {
+    if (prevtext === entry) {
         let n = prev[0] + 1;
         this.msgHistory[this.msgHistory.length - 1] = [n, entry];
         //  put text into HTML element
@@ -220,16 +234,30 @@ Game.msg = function (entry) {
         this.msgHistory.push([1, entry]);
         this.logElem.innerText += entry + "\n";
     }
-    this.logElem.scrollTo(0, this.logElem.scrollHeight); // scroll to show msg
+    Game.msg_scroll(); // scroll to show msg
 };
 // before Game.msg() is called, must seed the history to prevent key error.
 Game.msgSeed = function (entry) {
     this.msgHistory = [[1, entry]];
     this.logElem.innerText = entry + "\n";
 };
+// scroll the message log.
+// @dy is pixels to scroll. Leave undefined to scroll to bottom.
+Game.msg_scroll = function (dy) {
+    let ymax = this.logElem.scrollHeight;
+    if (dy === undefined) { this.msg_y = ymax }
+    else { this.msg_y = RESTRICTED(this.msg_y + dy, 0, ymax) }
+    this.logElem.scrollTo(0, this.msg_y);
+};
+
 // dialogue box
 Game.dbox = function (x, y, w, h, txt) {
-    this.display.drawText(x, y, txt, w);
+    for (let j = 0; j < w; j++) {
+        for (let i = 0; i < h; i++) {
+            this.display.draw(x + j, y + i, " ", "transparent", BLACK);
+        }
+    }
+    this.display.drawText(x, y, txt, w, "transparent", BLACK);
 };
 
 // perform function each "chron" (the smallest unit of in-game time)
@@ -247,6 +275,7 @@ Game.turnIterator = function () {
 
         that.turn++;
 
+        // surf animation
         if (that.view.y <= SURFY) {
             let tern, key;
             for (let j = 0; j < that.room.width; j++) {
@@ -255,7 +284,7 @@ Game.turnIterator = function () {
                     continue;
                 }
                 key = j + "," + SURFY;
-                if (that.map[key] == "surf") {
+                if (that.map[key] === "surf") {
                     tern = "surfrough"
                 } else tern = "surf";
                 that.map[key] = tern;
@@ -267,7 +296,7 @@ Game.turnIterator = function () {
             let obj = Things.dict[id];
 
             // gravas
-            if (that.turn % 2 == 0) {
+            if (that.turn % 2 === 0) {
                 if (obj.on(SINKS)) {
                     obj.port(obj.x, obj.y + 1);
                 }
@@ -301,27 +330,169 @@ Game.turnIterator = function () {
     };
 };
 
+Game.listen_stop_playerAction = function () {
+    window.removeEventListener("keydown", Player.performAction);
+}
+Game.listen_playerAction = function () {
+    window.addEventListener("keydown", Player.performAction);
+}
+
 // private functions //
 
-Game._generateMap = function () {
-    let choice;
-    for (let i = SURFY; i < this.room.height; i++) {
+Game._generateMap_init = function (discovered = false) {
+    for (let i = 0; i < this.room.height; i++) {
         for (let j = 0; j < this.room.width; j++) {
-            this.setTile(j, i, "water");
+            this.setTile(j, i, "air");
             this.stuff[j + "," + i] = null;
             this.floraGrid[j + "," + i] = null;
-            this.tilesSeen[j + "," + i] = false;
+            this.tilesSeen[j + "," + i] = discovered;
         }
     }
+};
+Game._generateMap = function () {
+    let choice;
+    this._generateMap_init();
+    // surf
     for (let j = 0; j < this.room.width; j++) {
         if (Math.random() > 0.5) { choice = "surf" } else choice = "surfrough";
         this.setTile(j, SURFY, choice);
     }
-    for (let i = 0; i < SURFY; i++) {
+    // water
+    for (let i = SURFY + 1; i < this.room.height; i++) {
         for (let j = 0; j < this.room.width; j++) {
-            this.setTile(j, i, "sky");
+            this.setTile(j, i, "water");
         }
     }
+
+};
+Game._generateMap_town = function () {
+    this._generateMap_init(true);
+    READTEXT("/../levels/town.txt", function (fileData) {
+        let lines = fileData.split("\n");
+        let tile;
+        for (let y = 0, line; y < Game.room.height; y++) {
+            line = lines[y];
+            for (let x = 0; x < Game.room.width; x++) {
+                if (line[x] === "\n") { continue }
+                tile = TILES_FROMTOWNMAP[line[x]];
+                //LOG(x + "," + y);
+                if (tile === undefined) { continue }
+                Game.setTile(x, y, tile);
+            }
+        }
+    });
+};
+
+Game.Tile = function (char, fgcol, bgcol, opaque, solid, swim, climb, breathe) {
+    this.char = char;
+    this.fgcol = fgcol;
+    this.bgcol = bgcol;
+    this.opaque = opaque;
+    this.solid = solid;
+    this.swim = swim;
+    this.climb = climb;
+    this.breathe = breathe;
+};
+Game._terrainData = {
+    /*  boolean values:                 opaque solid swim climb breathe */
+    "air": new Game.Tile(
+        " ", "transparent", BLACK, false, false, false, false, true),
+    "sky": new Game.Tile(
+        " ", "transparent", BLACK, false, false, false, false, true),
+    "water": new Game.Tile(
+        "smalldot", "transparent", DARK, false, false, true, false, false),
+    "surf": new Game.Tile(
+        "~", "transparent", DARK, false, false, true, false, true),
+    "surfrough": new Game.Tile(
+        "~~", "transparent", DARK, false, false, true, false, true),
+    "rock": new Game.Tile(
+        "noise3", "transparent", BLACK, true, true, false, false, false),
+    "wood": new Game.Tile(
+        "noise2", "transparent", DARK, true, true, false, false, false),
+    "falserock": new Game.Tile(
+        "noise3", "transparent", BLACK, true, true, false, false, false),
+    "ladder": new Game.Tile(
+        "#", "transparent", BLACK, false, false, false, true, true),
+    "doorclosed": new Game.Tile(
+        "+", "transparent", BLACK, true, true, false, false, true),
+    "dooropen": new Game.Tile(
+        "-", "transparent", BLACK, false, false, false, false, true),
+    "fountain": new Game.Tile(
+        "ff", "transparent", BLACK, false, false, false, false, true),
+    "roofpos": new Game.Tile(
+        "/", "transparent", DARK, true, true, false, false, false),
+    "roofneg": new Game.Tile(
+        "\\", "transparent", DARK, true, true, false, false, false),
+    "rooftop": new Game.Tile(
+        "_", "transparent", DARK, true, true, false, false, false),
+    "chimney": new Game.Tile(
+        "L", "transparent", DARK, true, true, false, false, false),
+    "antenna": new Game.Tile(
+        "|", "transparent", DARK, true, true, false, false, false),
+    "windowright": new Game.Tile(
+        "]", "transparent", NEUTRAL, false, true, false, false, false),
+    "windowleft": new Game.Tile(
+        "[", "transparent", NEUTRAL, false, true, false, false, false),
+    "star": new Game.Tile(
+        "*", "transparent", DEEP, false, false, false, false, true),
+};
+
+// callback functions
+
+Game._callbackFxn_FOVnormal = function (x, y) {
+    return !Game.cell(x, y).opaque;
+};
+
+
+
+
+
+
+
+
+
+/*
+ *
+Game._drawMap = function () {
+    for (let i = 0; i < this.view.height; i++) {
+        for (var j = 0; j < this.view.width; j++) {
+            let x = j + this.view.x;
+            let y = i + this.view.y;
+            this.draw(x, y);
+        }
+    }
+}
+
+// you only get accurate depth reading when in water.
+// this could be used for pressure as well
+Game.get_depthReading = function (obj) {
+    if (this.cell(obj.x, obj.y).swim == true) { return obj.y; }
+    else { return 0; }
+}
+
+STACK SAME MESSAGES IN A ROW INTO ONE MESSAGE WITH QUANTITY IDENTIFIER ON IT.
+THIS BECAME MORE COMPLEX THAN I THOUGHT. MAY RETURN LATER.
+    let lis = this.logElem.innerText.split('\n');
+    let prevLine = lis[lis.length - 1];
+    let pos = prevLine.search(')');
+    let prevStr;
+    if (pos !== -1) { prevStr = prevLine.slice(pos); }
+    else prevStr = prevLine;
+    if (prevStr == entry) {
+        this.logElem.innerText = "";
+        lis.pop();
+        for (let i of lis) {
+            this.logElem.innerText += i;
+        }
+        entry = "";
+        this.logElem.innerText += entry;
+    }
+    THIS WOULD MAKE THINGS EASIER.
+    msgHistory = [[1,"this message happened once"], [2,"this happened twice"],]
+*/
+
+
+/*
     this.setTile(20, 14, "rock");
     this.setTile(20, 15, "rock");
     this.setTile(20, 16, "rock");
@@ -389,141 +560,4 @@ Game._generateMap = function () {
     this.setTile(13, 19, "ladder");
 
     this.setTile(17, 17, "rock");
-};
-
-Game._generateMap_town = function () {
-    for (let i = 0; i < this.room.height; i++) {
-        for (let j = 0; j < this.room.width; j++) {
-            this.setTile(j, i, "air");
-            this.tilesSeen[j + "," + i] = true;
-        }
-    }
-    LOG('hello');
-    getTextFile("/../levels/town.txt")
-        .then(function (fileData) {
-            let lines = fileData.split("\n");
-            let tile;
-            for (let y = 0, line; y < lines.length; y++) {
-                line = lines[y];
-                LOG(line.length);
-                for (let x = 0; x < line.length; x++) {
-                    if (line[x] == "\n") { continue }
-                    tile = TILES_FROMTOWNMAP[line[x]];
-                    //LOG(x + "," + y);
-                    if (tile === undefined) { continue }
-                    Game.setTile(x, y, tile);
-                }
-            }
-        })
-        .catch(function (xhr) {
-            LOG(xhr);
-        });
-};
-
-Game.Tile = function (char, fgcol, bgcol, opaque, solid, swim, climb, breathe) {
-    this.char = char;
-    this.fgcol = fgcol;
-    this.bgcol = bgcol;
-    this.opaque = opaque;
-    this.solid = solid;
-    this.swim = swim;
-    this.climb = climb;
-    this.breathe = breathe;
-};
-Game._terrainData = {
-/*  boolean values:                 opaque solid swim climb breathe */
-    "air": new Game.Tile(
-        " ", "transparent", BLACK, false, false, false, false, true),
-    "sky": new Game.Tile(
-        " ", "transparent", SKYBLUE, false, false, false, false, true),
-    "water": new Game.Tile(
-        "smalldot", "transparent", SEAGREEN, false, false, true, false, false),
-    "surf": new Game.Tile(
-        "~", "transparent", SEAFOAM, false, false, true, false, true),
-    "surfrough": new Game.Tile(
-        "~~", "transparent", SEAFOAM, false, false, true, false, true),
-    "rock": new Game.Tile(
-        "noise2", "transparent", BROWN, true, true, false, false, false),
-    "falserock": new Game.Tile(
-        "noise3", "transparent", BROWN, true, true, false, false, false),
-    "ladder": new Game.Tile(
-        "#", "transparent", BROWN, false, false, false, true, true),
-    "doorclosed": new Game.Tile(
-        "+", "transparent", BROWN, true, true, false, false, true),
-    "dooropen": new Game.Tile(
-        "-", "transparent", BROWN, false, false, false, false, true),
-    "roofpos": new Game.Tile(
-        "/", "transparent", BROWN, false, true, false, false, false),
-    "roofneg": new Game.Tile(
-        "\\", "transparent", BROWN, false, true, false, false, false),
-    "rooftop": new Game.Tile(
-        "_", "transparent", BROWN, false, true, false, false, false),
-    "chimney": new Game.Tile(
-        "L", "transparent", BROWN, false, true, false, false, false),
-    "well": new Game.Tile(
-        "u", "transparent", BLACK, false, false, false, false, true),
-    "windowright": new Game.Tile(
-        "]", "transparent", SEAFOAM, false, true, false, false, false),
-    "windowleft": new Game.Tile(
-        "[", "transparent", SEAFOAM, false, true, false, false, false),
-    "antenna": new Game.Tile(
-        "|", "transparent", BROWN, false, true, false, false, false),
-    "star": new Game.Tile(
-        "*", "transparent", BLACK, false, false, false, false, true),
-    "stairsright": new Game.Tile(
-        "stairsright", "transparent", BLACK, false, true, false, false, false),
-};
-
-// callback functions
-
-Game._callbackFxn_FOVnormal = function (x, y) {
-    return !Game.cell(x, y).opaque;
-};
-
-
-
-
-
-
-
-
-
-/*
- *
-Game._drawMap = function () {
-    for (let i = 0; i < this.view.height; i++) {
-        for (var j = 0; j < this.view.width; j++) {
-            let x = j + this.view.x;
-            let y = i + this.view.y;
-            this.draw(x, y);
-        }
-    }
-}
-
-// you only get accurate depth reading when in water.
-// this could be used for pressure as well
-Game.get_depthReading = function (obj) {
-    if (this.cell(obj.x, obj.y).swim == true) { return obj.y; }
-    else { return 0; }
-}
-
-STACK SAME MESSAGES IN A ROW INTO ONE MESSAGE WITH QUANTITY IDENTIFIER ON IT.
-THIS BECAME MORE COMPLEX THAN I THOUGHT. MAY RETURN LATER.
-    let lis = this.logElem.innerText.split('\n');
-    let prevLine = lis[lis.length - 1];
-    let pos = prevLine.search(')');
-    let prevStr;
-    if (pos !== -1) { prevStr = prevLine.slice(pos); }
-    else prevStr = prevLine;
-    if (prevStr == entry) {
-        this.logElem.innerText = "";
-        lis.pop();
-        for (let i of lis) {
-            this.logElem.innerText += i;
-        }
-        entry = "";
-        this.logElem.innerText += entry;
-    }
-    THIS WOULD MAKE THINGS EASIER.
-    msgHistory = [[1,"this message happened once"], [2,"this happened twice"],]
-*/
+    */
