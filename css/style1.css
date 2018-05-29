@@ -1,43 +1,45 @@
-﻿
+/*
+    style1.css
+*/
 
 html, body {
     min-height: 100vh;
     min-width: 100vw;
-    background-color: #082114;
-    font-weight: 800;
+    background-color: #051005;
+    font-weight: 900;
 }
-
 body {
     font-family: "Courier New", "Courier", monospace;
-    color: floralwhite;
+    color: #0fff89;
     margin: 0 auto;
     text-align: center;
 }
-
+#mainblock {
+    margin: auto;
+}
 #game {
     min-width: 800px;
 }
-
-#title {
+#hud { /*, #title*/
     display: block;
     margin: 0 auto;
+    font-size: 16px;
 }
-
 #hud {
-    background-color: black;
-    display: block;
-    margin: 0 auto;
-    font-size: 15px;
+    text-align: left;
+    /*background-color: black;*/
 }
-
+/*#log, canvas {
+    border: outset 3px #87ff00;
+    padding: 3px;
+}*/
 #log {
     text-align: left;
-    background-color: #000000;
+    /*background-color: #000000;*/
     display: block;
-    margin: 0 auto;
+    margin: -5px auto;
     overflow: scroll;
 }
-
 canvas {
     margin: 0px;
 }
