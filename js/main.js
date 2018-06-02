@@ -12,10 +12,10 @@ Game.msg(`Welcome ${pc.name} to ${Game.roomName()}.`);
 
 
 //TESTING
-Mon.new('c', 50, 20);
-Mon.new('c', 40, 20);
-Mon.new('c', 60, 20);
-Mon.new('c', 20, 20);
+Mon.create('c', 50, 20);
+Mon.create('c', 40, 20);
+Mon.create('c', 60, 20);
+Mon.create('c', 20, 20);
 Flora.create_seaweed(16, 24, 2);
 Flora.create_seaweed(19, 24, 5);
 Flora.create_seaweed(21, 24, 4);
