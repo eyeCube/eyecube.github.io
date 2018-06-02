@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  constants
  */
 
@@ -8,12 +8,13 @@
 const BREAK = Symbol("break");
 
 /*
- * simple, global, constant functions to prettify
+ * simple, global, constant functions
  */
 
 const DIRX = rads => Math.round(Math.cos(rads));
 const DIRY = rads => -Math.round(Math.sin(rads));
-const DIST = (xf, yf, xt, yt) => Math.sqrt((yt - yf) ** 2 + (xt - xf) ** 2);
+const DIST = (xf, yf, xt, yt) => Math.sqrt((yt - yf) ** 2 + (xt - xf) ** 2); // Pythagorean hypotenuse
+const DORTHO = (xf, yf, xt, yt) => Math.max(Math.abs(xf - xt), Math.abs(yf - yt)); // orthogonal distance
 const CHAR = code => String.fromCharCode(code);
 const POINTDIR = (xf, yf, xt, yt) => Math.atan2(yf - yt, xt - xf); // swap y because our grid is inverted in y direction
 const REMOVED = (arrayOld, item) => arrayOld.filter(el => el !== item); // return array w/ item removed
@@ -30,9 +31,7 @@ const INCLUDES = (lis, value) => {
     return false;
 };
 const RESTRICTED = (value, _min, _max) => {
-    value = Math.max(value, _min);
-    value = Math.min(value, _max);
-    return value;
+    return Math.max(Math.min(value, _max), _min);
 };
 // step over a bresenham line, performing a callback at each point on the line
 // callback function takes value, index, len
@@ -51,7 +50,7 @@ const STEPLINE = (x1, y1, x2, y2, callback) => {
 // read text (and do something with it)
 // fxn is a function that uses fileData (passed in to fxn automatically)
 // read fileData as a string and do whatever you want with it
-function READTEXT(path, fxn, callback) {
+const READTEXT = (path, fxn, callback) => {
     _getTextFile(path, callback)
         .then(fxn)
         .catch(function (xhr) {
@@ -69,7 +68,7 @@ function READTEXT(path, fxn, callback) {
 
 const TILEW = 12;
 const TILEH = 16;
-const TILESET_SOURCE = "/../tilesets/green_12x16.png";
+const TILESET_SOURCE = "/../tilesets/greenblack_12x16.png";
 
 // gameplay constants //
 
@@ -81,16 +80,18 @@ const COST_FIRE = 10;
 const AVG_SPEED = 10;
 const TURN_LENGTH = 10;
 const DEPTHO2DIV = 100; // meters down before oxygen loss increases by multiple of 1
-const PRESSURE = 100; //
+const PRESSURE = 100; // 
 //const COSTMULT_MOVE_VERTICAL = 1; // multiplier: time cost to move up or down
 
 // Colors //
 
-const WHITE = "#aaffdd";
+const WHITE = "#ffffff";
+const LIGHT = "#00ff82";
 const NEUTRAL = "#1c8a51";
-const DARK = "#133020";
-const DEEP = "#18221d";
-const BLACK = "#000000";
+const CATHODEBG = "#051a0f";
+const DARK = "#173520";
+const DEEP = "#1c2a1c";
+const BLACK = "#0a150a";
 // unused...
 const RED = "#ff240e";
 const DARKRED = "#630000";
@@ -119,14 +120,16 @@ const BLEEDING = Symbol();
  * data objects
  */
 
+// rooms
 const ROOM_TOWN = "town";
 const ROOM_SEAS = "seas";
+const ROOMS_NOFOV = [ROOM_TOWN];
 const ROOMNAMES = {
     "town": "Wessenerville",
     "seas": "the Seas of Morudia",
 };
-
-const DIRECTIONS = {
+//
+const DIRECTIONS = { // translate action into degrees of movement
     "e": 0,
     "ne": 45,
     "n": 90,
@@ -136,11 +139,11 @@ const DIRECTIONS = {
     "s": 270,
     "se": 315,
 };
-
+//
 const ASCIICHARMAP = {
-    //  values starting at 0 and are x, y coordinates on the tileset...png.
-    //  values will all be stretched to become the actual pixel coordinates
-    //  in the image. For now to keep it prettier, just do the grid coords.
+//  values starting at 0 and are x, y coordinates on the tileset...png.
+//  values will all be stretched to become the actual pixel coordinates
+//  in the image. For now to keep it prettier, just do the grid coords.
     "a": [1, 6],
     "b": [2, 6],
     "c": [3, 6],
@@ -230,6 +233,7 @@ const ASCIICHARMAP = {
     "[": [11, 5],
     "\\": [12, 5],
     "]": [13, 5],
+    "~": [14, 7],
     "~~": [7, 15],
     "^": [14, 5],
     "_": [15, 5],
@@ -237,7 +241,6 @@ const ASCIICHARMAP = {
     "{": [11, 7],
     "|": [12, 7],
     "}": [13, 7],
-    "~": [14, 7],
     "ae": [1, 9],
     "AE": [2, 9],
     "bigdot": [9, 15],
@@ -253,9 +256,24 @@ const ASCIICHARMAP = {
     "noise2": [1, 11],
     "noise3": [2, 11],
     "ff": [4, 15],
+    "full": [11, 13],
 };
-
-const TILES_FROMTOWNMAP = {
+// Add other colors to the tilemap.
+// black tiles have same coords but y + 16.
+// - To use a black tile, access the key in ASCIICHARMAP with the string
+//      "%2" concatenated on the end.
+const addascii_iter = () => {
+    for (let i of Object.keys(ASCIICHARMAP)) {
+        let k = i + "%2";
+        let n = ASCIICHARMAP[i].slice();
+        n[1] += 16;
+        ASCIICHARMAP[k] = n;
+    }
+}
+addascii_iter();
+LOG(ASCIICHARMAP);
+//
+const TILES_FROMTOWNMAP = { // translate textfile-town into tiles
     "0": "rock",
     "%": "wood",
     "/": "roofpos",
