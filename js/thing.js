@@ -3,7 +3,11 @@
  *  monsters
  *  AIs
  *  actions
+ *  flora
+ *  inventory
  */
+
+// TODO for AI: wait if cannot make any good moves.
 
 "use strict";
 
@@ -21,8 +25,8 @@ var Things = {
 Things.add = function (obj) { this.dict[obj.id] = obj };
 Things.remove = function (obj) { delete this.dict[obj.id] };
 
-// make, register and return a new generic Thing
-Things.new = function (char, x, y) {
+// make + register new Thing
+Things.create = function (char, x, y) {
     let thing = new this.Thing(char, x, y);
     thing.id = this._newID();
     this.add(thing);
@@ -31,8 +35,8 @@ Things.new = function (char, x, y) {
     return thing;
 };
 // create a thing w/ an "act" function
-Things.new_actor = function (char, x, y) {
-    let thing = this.new(char, x, y);
+Things.create_actor = function (char, x, y) {
+    let thing = this.create(char, x, y);
     Game.addActor(thing, true);
     thing.raise(ISACTOR);
     thing.stats = new Things.Stats();
@@ -53,7 +57,7 @@ Things.Stats = function () {
 };
 
 // Thing class
-// To create a Thing, call Things.new() or Things.new_actor();
+// To create a Thing, call Things.create() or Things.create_actor();
 // To delete a Thing, call prototype method obj.destroy();
 // UNLESS it is an actor, inwhichcase call obj.kill() instead!
 Things.Thing = function (char, x, y) {
@@ -61,8 +65,8 @@ Things.Thing = function (char, x, y) {
     this.x = x;
     this.y = y;
     this.flags = [];
-    this.fgcol = WHITE;
-    this.bgcol = BLACK;
+    this.fgcol = "transparent";
+    this.bgcol = "transparent";
     this.name = Things.names[char];
     this.stats = null;
 };
@@ -127,8 +131,8 @@ var Mon = {
         //911: { hp: 1, spd: 5, pow: 1, arm: 0 },
     },
 };
-Mon.new = function (char, x, y) {
-    let mon = Things.new_actor(char, x, y);
+Mon.create = function (char, x, y) {
+    let mon = Things.create_actor(char, x, y);
     let data = this.bestiary[char];
     mon.stats.hpcap = data.hp;
     mon.stats.hp = data.hp;
@@ -157,13 +161,13 @@ Inv.Inventory = function () {
 var Flora = {
     dict: {},
     _floraData: {
-        ')': { "fgcol": "transparent", "bgcol": DARK, },
-        '(': { "fgcol": "transparent", "bgcol": DARK, },
+        ')': { "fgcol": "transparent", "bgcol": "transparent", },
+        '(': { "fgcol": "transparent", "bgcol": "transparent", },
     },
 };
 Flora.add = function (flor) { this.dict[flor.id] = flor };
 Flora.remove = function (flor) { this.dict[flor.id] = null };
-Flora.new = function (char, x, y) {
+Flora.create = function (char, x, y) {
     let flor = new this.Flora(char, x, y);
     Flora.add(this);
     Game.addFlora(flor);
@@ -174,7 +178,7 @@ Flora.create_seaweed = function (x, y, height) {
     let ch;
     if (y % 2 === 0) { ch = ')'; } else ch = '(';
     for (let i = 0; i < height; i++) {
-        let flor = this.new(ch, x, y - i);
+        let flor = this.create(ch, x, y - i);
         if (ch === ')') { ch = '(' } else ch = ')'
         flor.act = flor.act_seaweed;
         Game.addActor(flor, true);
