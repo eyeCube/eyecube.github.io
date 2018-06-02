@@ -9,6 +9,10 @@ Hud.init();
 Game.start();
 Game.msgSeed(`${Game.title} v_${Game.version}`);
 Game.msg(`Welcome ${pc.name} to ${Game.roomName()}.`);
+var global_updateInterval = setInterval(function () { Game.update() }, 32);
+setTimeout(function () {
+    Game.initTexture = false;
+}, 100);
 
 
 //TESTING
