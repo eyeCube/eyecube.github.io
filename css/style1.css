@@ -2,14 +2,26 @@
     style1.css
 */
 
-html, body {
+@font-face {
+    font-family: 'FixedsysExcelsior301Regular';
+    src: url('/fonts/fsex300-webfont.eot');
+    src: url('/fonts/fsex300-webfont.eot?iefix') format('embedded-opentype'),
+        url('/fonts/fsex300-webfont.woff') format('woff'),
+        url('/fonts/fsex300-webfont.ttf') format('truetype'),
+        url('/fonts/fsex300-webfont.svg#FixedsysExcelsior301Regular') format('svg');
+    font-style: normal;
+    -webkit-font-smoothing: aliased;
+    font-smooth: never;
+}
+
+html {
+    background: linear-gradient(#0c3c41,#090f10);
     min-height: 100vh;
     min-width: 100vw;
-    background-color: #051005;
-    font-weight: 900;
 }
 body {
-    font-family: "Courier New", "Courier", monospace;
+    font-family: 'FixedsysExcelsior301Regular', "Courier New", "Courier", monospace;
+    font-size: 16px;
     color: #0fff89;
     margin: 0 auto;
     text-align: center;
@@ -23,23 +35,21 @@ body {
 #hud { /*, #title*/
     display: block;
     margin: 0 auto;
-    font-size: 16px;
-}
-#hud {
     text-align: left;
-    /*background-color: black;*/
+    background: radial-gradient(at 20%, #305040 0%,#052510 30%, #001010 70%);
 }
-/*#log, canvas {
-    border: outset 3px #87ff00;
-    padding: 3px;
-}*/
 #log {
     text-align: left;
-    /*background-color: #000000;*/
     display: block;
-    margin: -5px auto;
+    margin: 0px auto;
     overflow: scroll;
+    background: radial-gradient(at 30% 40%, #153525,#051005 50%, #052015);
 }
 canvas {
     margin: 0px;
 }
+
+/*#log, canvas {
+    border: outset 3px #87ff00;
+    padding: 3px;
+}*/
