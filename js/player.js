@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  player
  */
 
@@ -6,27 +6,27 @@
 
 
 // Player data and functions
-// This is NOT the in-game Thing object controlled by the player (PC).
-// PLayer.init() returns the Thing object that is the PC.
+// This is NOT the in-game object controlled by the player (PC).
+// Player.init() returns the Thing object that is the PC.
 var Player = {
 
 };
 Player.init = function () {
-    let player = Things.new_actor('@', 1, 0);
-    player.name = "Jaek";
-    player.stats.hpcap = 10;
-    player.stats.hp = player.stats.hpcap;
-    player.stats.o2cap = 400;
-    player.stats.o2 = player.stats.o2cap;
-    player.stats.power = 2;
-    player.stats.sight = 20;
-    player.raise(NEEDSAIR);
-    player.raise(CANCLIMB);
-    player.raise(CANOPEN);
-    player.act = this.pcAct; //act is called when it is your turn
+    let obj = Things.create_actor('@', 1, 0);
+    obj.name = "Jaek";
+    obj.stats.hpcap = 10;
+    obj.stats.hp = obj.stats.hpcap;
+    obj.stats.o2cap = 400;
+    obj.stats.o2 = obj.stats.o2cap;
+    obj.stats.power = 2;
+    obj.stats.sight = 10;
+    obj.raise(NEEDSAIR);
+    obj.raise(CANCLIMB);
+    obj.raise(CANOPEN);
+    obj.act = this.pcAct; //act is called when it is your turn
     // FOV
-    player.fov = new ROT.FOV.PreciseShadowcasting(Game._callbackFxn_FOVnormal);
-    return player;
+    obj.fov = new ROT.FOV.PreciseShadowcasting(Game._FOVnormal_callback);
+    return obj;
 };
 Player.commands_keys = {
     'e': ROT.VK_L, // vi keys
@@ -68,13 +68,16 @@ Player.commands = function (event) {
     event.preventDefault();
     return action;
 };
-// act function executed when it's player's turn
+// pc obj "act" function, executed to begin player turn
 Player.pcAct = function () {
-    Game.update();
+    Player.fov_update();
+    Game.render();
+    Game.refresh();
     Hud.update();
     Game.engine.lock(); // freeze and wait for action
-    Game.listen_playerAction();
+    Game.listen_playerAction(); // activate listener function for player action
 }
+// listener function for player action
 Player.performAction = function (ev) {
     let that = Player;
     let action = that.commands(ev);
@@ -112,10 +115,10 @@ Player.performAction = function (ev) {
                 that.action_aim();
                 break;
             case 'logscrollup':
-                Game.msg_scroll(-Game.logh);
+                Game.msgScroll(-Game.logh);
                 break;
             case 'logscrolldown':
-                Game.msg_scroll(Game.logh);
+                Game.msgScroll(Game.logh);
                 break;
             case 'wait1':
                 finish = true;
@@ -136,21 +139,6 @@ Player.performAction = function (ev) {
 };
 // pass torch: calculate FOV, resume engine
 Player.pass_torch = function () {
-
-    if (Game.room.current !== ROOM_TOWN) {
-        // reset tiles to not visible
-        for (let i = 0; i < Game.view.height; i++) {
-            for (let j = 0; j < Game.view.width; j++) {
-                let xmap = j + Game.view.x;
-                let ymap = i + Game.view.y;
-                Game.tilesSeen[xmap + "," + ymap] = false;
-            }
-        }
-
-        pc.fov.compute(pc.x, pc.y, pc.stats.sight, function (x, y, r, visibility) {
-            Game.tilesSeen[x + "," + y] = true;
-        });
-    }
 
     Game.listen_stop_playerAction(); // ignore pc input till next pc turn
     Game.engine.unlock(); // perform other actor turns
@@ -178,17 +166,19 @@ Player.action_aim = function () {
         }
     }
     // init temp vars for use with callback
-    Player.dirChosen = null; // 
-    Player.targeted = null; // selected thing to fire at
-    Player.thingHit = null; // actual thing that will be hit if you fire
-    Player.dirStr = "";
+    Player.targeted = undefined; // selected thing to fire at
+    Player.thingHit = undefined; // actual thing that will be hit if you fire
+    Player.dirChosen = undefined; // current aiming direction
+    Player.dirStr = ""; // string describing aiming direction
     Player.targetsConsidered = [];
     Player.selectID = 0;
     Game.listen_stop_playerAction();
     window.addEventListener("keydown", Player.doAim);
 };
 
-// input //
+//-----------//
+// listeners //
+//-----------//
 
 // auto-aim at targets
 Player.doAim = function (ev) {
@@ -210,7 +200,7 @@ Player.doAim = function (ev) {
         if (dir !== undefined) {
             Player.dirStr = action;
             // select a new direction and the closest monster in that direction
-            if (Player.dirChosen === null || dir !== Player.dirChosen) {
+            if (Player.dirChosen === undefined || dir !== Player.dirChosen) {
                 let dist;
                 let closest = 999999;
                 let maxDiff = 30; // higher: more inclusive
@@ -228,7 +218,8 @@ Player.doAim = function (ev) {
                     }
                 }
                 // refresh screen
-                Game.update()
+                Game.refresh()
+                Game.clearOverlay();
                 //
                 if (Player.targetsConsidered.length === 0) {
                     Player._showAimPrompt("No targets there in range. ");
@@ -250,7 +241,8 @@ Player.doAim = function (ev) {
                 if (Player.targetsConsidered.length) {
                     Player.selectID = (Player.selectID + 1) %
                         Player.targetsConsidered.length;
-                    Game.update()
+                    Game.refresh()
+                    Game.clearOverlay();
                     Player.targeted = Player.targetsConsidered[Player.selectID];
                     Player._castAimLine(Player.targeted);
                     Player._showTargeted(Player.targeted);
@@ -258,21 +250,42 @@ Player.doAim = function (ev) {
             }
         }
     }
-    // fire at target
-    if (selected && Player.thingHit !== null) {
-        let t = Player.thingHit;
+    // fire at target & end pc turn
+    if (selected && Player.thingHit !== undefined) {
+        let tg = Player.thingHit;
         let dmg = pc.stats.power;
-        t.hurt(dmg);
-        LOG(`${t.name} hurt by ${dmg} dmg`)
+        tg.hurt(dmg);
         Game.queueActor(COST_FIRE);
+        Game.msgLogBuild();
+        Game.clearOverlay();
         removeThisListener();
-        Player.pass_torch(); // end pc turn
+        Player.pass_torch();
         return;
     }
-    if (resume) { // resume player's turn
-        Game.update();
+    if (resume) { // no action taken, resume player's turn
+        Game.msgLogBuild();
+        Game.refresh();
+        Game.clearOverlay();
         removeThisListener();
         Game.listen_playerAction();
+    }
+};
+Player.fov_update = function () {
+    if (!INCLUDES(ROOMS_NOFOV, Game.room.current)) { // some rooms disable FOV
+        // reset tiles to not visible
+        let xmap, ymap;
+        for (let i = 0; i < Game.view.height; i++) {
+            for (let j = 0; j < Game.view.width; j++) {
+                xmap = j + Game.view.x;
+                ymap = i + Game.view.y;
+                Game.tilesSeen[xmap + "," + ymap] = false;
+            }
+        }
+        // show tiles pc can see
+        pc.fov.compute(pc.x, pc.y, pc.stats.sight, function (x, y, r, visibility) {
+            //if (Game.cell(x, y).swim && DORTHO(pc.x,pc.y,x,y) > pc.stats.sight) { return }
+            Game.tilesSeen[x + "," + y] = true;
+        });
     }
 };
 
@@ -282,37 +295,38 @@ Player.doAim = function (ev) {
 
 Player._showAimPrompt = function (addend) {
     if (addend === undefined) { addend = "" }
-    Game.dbox(0, 0, Game.screen.width, 1, addend + "Aim where? <hjklyubn>");
+    Game.alert(addend + "Aim where? <hjklyubn>");
 };
 Player._showTargeted = function (targeted) {
-    let tg = targeted;
-    let xt = tg.x - pc.x;
-    let yt = tg.y - pc.y;
-    let xs = (xt >= 0) ? "+" : "";
-    let ys = (yt >= 0) ? "+" : "";
-    let d = Math.round(Math.sqrt(xt ** 2 + yt ** 2));
+    const tg = targeted;
+    const xt = tg.x - pc.x;
+    const yt = tg.y - pc.y;
+    const xs = (xt >= 0) ? "+" : "";
+    const ys = (yt >= 0) ? "+" : "";
+    const d = Math.round(Math.sqrt(xt ** 2 + yt ** 2));
     // underline targeted
-    Game.draw(tg.x, tg.y, " ", "transparent", BLACK);
-    Game.draw(tg.x, tg.y, [tg.char, "_"],
-        [tg.fgcol, "transparent"]);
+    Game.createOverlay(tg.x, tg.y, "_");
     // display info about target
-    Game.dbox(0, 0, Game.screen.width, 1,
-        `${Player.dirStr.toUpperCase()}-${Player.selectID + 1} `
+    Game.alert(`${Player.dirStr.toUpperCase()}-${Player.selectID + 1} `
         + `${d}m (X${xs}${xt},Y${ys}${yt}) `
         + `[${tg.char}] "${tg.name}" `
-        + `| aim:<hjklyubn> select:<space>`
+        + `| select:<space> aim:<hjklyubn>`
     );
 };
 Player._castAimLine = function (targeted) {
     // highlight trajectory and destination of missile
     STEPLINE(pc.x, pc.y, targeted.x, targeted.y, function (v, i, len) {
         if (i === 0) { return } // continue. Missile ignores caster.
-        let x = v[0], y = v[1];
+        const x = v[0], y = v[1];
         let here = Game.monat(x, y);
-        if (!here) { Game.draw(x, y, "*", "transparent", NEUTRAL) }
+        if (!here) { Game.createOverlay(x, y, "*") }
         if (here) {
-            Game.draw(x, y, "!", "transparent", BLACK) // something in the way!
+            Game.createOverlay(x, y, "!"); // something in the way!
             Player.thingHit = here; // actual target of missile
+            return BREAK; // destination reached
+        }
+        if (Game.cell(x, y).solid) {
+            Game.createOverlay(x, y, "!"); // something in the way!
             return BREAK; // destination reached
         }
     });
