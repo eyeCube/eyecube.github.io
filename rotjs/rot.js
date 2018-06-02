@@ -1,6 +1,8 @@
-﻿/*
+/*
 	This is rot.js, the ROguelike Toolkit in JavaScript.
-	Version 0.7~dev, generated on Thu May 17 14:29:02 CEST 2018.
+	Version 0.7~dev, generated on Thu May 17 14:29:02 CEST 2018.*
+    *Modified by Jacob Wharton 5-31-18:
+        - added ROT.Display.prototype.getContext()
 */
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -803,7 +805,7 @@
         }
         return this;
     };
-
+    
     /**
      * Returns currently set options
      * @returns {object} Current options object 
@@ -818,6 +820,14 @@
      */
     ROT.Display.prototype.getContainer = function () {
         return this._context.canvas;
+    };
+
+    /**
+     * Returns the context of the canvas
+     * @returns {context} HTML canvas 2d context
+     */
+    ROT.Display.prototype.getContext = function () {
+        return this._context;
     };
 
     /**
@@ -891,24 +901,24 @@
      * @param {int} [maxWidth] wrap at what width?
      * @returns {int} lines drawn
      */
-    ROT.Display.prototype.drawText = function (x, y, text, maxWidth) {
-        var fg = null;
-        var bg = null;
-        var cx = x;
-        var cy = y;
-        var lines = 1;
+    ROT.Display.prototype.drawText = function (x, y, text, maxWidth, _fg = null, _bg = null) {
+        let fg = _fg;
+        let bg = _bg;
+        let cx = x;
+        let cy = y;
+        let lines = 1;
         if (!maxWidth) { maxWidth = this._options.width - x; }
 
-        var tokens = ROT.Text.tokenize(text, maxWidth);
+        let tokens = ROT.Text.tokenize(text, maxWidth);
 
         while (tokens.length) { /* interpret tokenized opcode stream */
-            var token = tokens.shift();
+            let token = tokens.shift();
             switch (token.type) {
                 case ROT.Text.TYPE_TEXT:
-                    var isSpace = false, isPrevSpace = false, isFullWidth = false, isPrevFullWidth = false;
-                    for (var i = 0; i < token.value.length; i++) {
-                        var cc = token.value.charCodeAt(i);
-                        var c = token.value.charAt(i);
+                    let isSpace = false, isPrevSpace = false, isFullWidth = false, isPrevFullWidth = false;
+                    for (let i = 0; i < token.value.length; i++) {
+                        let cc = token.value.charCodeAt(i);
+                        let c = token.value.charAt(i);
                         // Assign to `true` when the current char is full-width.
                         isFullWidth = (cc > 0xff00 && cc < 0xff61) || (cc > 0xffdc && cc < 0xffe8) || cc > 0xffee;
                         // Current char is space, whatever full-width or half-width both are OK.
