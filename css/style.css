@@ -76,12 +76,12 @@ img.game {
 }
 
 #email {
-	list-style-image: url("email_sprite.png");
+	list-style-image: url("../img/email_sprite.png");
 }
 #phone {
-	list-style-image: url("phone_sprite.png");
+	list-style-image: url("../img/phone_sprite.png");
 }
 #address {
-	list-style-image: url("loc_sprite.png");
+	list-style-image: url("../img/loc_sprite.png");
 }
 
