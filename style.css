@@ -1,0 +1,83 @@
+
+body {
+	background-color: #000000;
+	color: #ffbb77;
+	font-family: courier;
+}
+#objective_p {
+	text-indent: 5%;
+}
+#refs {
+	text-indent: 5%;
+}
+#position {
+	text-indent: 5%;
+	color: #33ffbb;
+	background-color: #00331a;
+}
+h3, h2 {
+	color: #0088ff;
+	background-color: #000f2f;
+}
+p {
+	background-color: #150f00;
+}
+.hyperlink {
+	color: #ff0088;
+	background-color: #220011;
+}
+
+.split {
+	height: 100%;
+	width: 50%;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	overflow-x: hidden;
+	box-sizing: border-box;
+}
+.resume {
+	left: 0;
+	background-color: #110c00;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+.portfolio {
+	right: 0;
+	background-color: #0f0f0f;
+	display:grid;
+	grid-auto-flow: row;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+    overflow: auto;
+    white-space: nowrap;
+}
+.portfolio > section.gamebox {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+ }
+.gamebox > img {
+	object-fit: fill;
+ }
+img.game {
+	max-width: 25em;
+	max-height: 25em;
+	background-color: #000000;
+}
+.softly {
+}
+.platformer {
+}
+
+#email {
+	list-style-image: url("email_sprite.png");
+}
+#phone {
+	list-style-image: url("phone_sprite.png");
+}
+#address {
+	list-style-image: url("loc_sprite.png");
+}
+
