@@ -75,10 +75,10 @@ img.game {
 	background-color: #000000;
 }
 .softly {
-	background-color: #260c00;
+	background-color: #50001f;
 }
 .platformer {
-	background-color: #0c0026;
+	background-color: #001626;
 }
 .sea-of-green {
 	background-color: #000f0f;
@@ -87,37 +87,38 @@ img.game {
 	background-color: #002600;
 }
 .empire2 {
-	background-color: #260016;
+	background-color: #2f0016;
 }
 .mendacity2 {
 	background-color: #000c26;
 }
-.cover {
-	background-color: #002626;
-}
 .name {
-	background-color: #161616;
-}
-.endcap2 {
-	background-color: #002626;
-}
-.endcap3 {
-	background-color: #002600;
+	background-color: #001f26;
 }
 #name {
-	color: #22a5ff;
+	background-color: #001f26;
+	color: #44aaff;
 	text-align: center;
 	font-size: 2em;
 }
 #endcap2 {
-	color: #002626;
+	color: #2f0016;
+}
+.endcap2 {
+	background-color: #2f0016;
 }
 #endcap3 {
 	color: #002600;
 }
+.endcap3 {
+	background-color: #002600;
+}
+.cover {
+	background-color: #302000;
+}
 #album_cover {
-	color: #22a5ff;
-	background-color: #002626;
+	color: #ffbb77;
+	background-color: #302000;
 	font-size: 2em;
 	text-align: center;
 }
