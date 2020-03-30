@@ -55,14 +55,12 @@ p {
 	background-color: #ffffff;
 	color: #000000;
 }
+#website-link {
+	background-color: #ffffff;
+	color: #000000;
+}
 
 
-#email {
-	list-style-image: url("../img/email_trans_black.png");
-}
-#phone {
-	list-style-image: url("../img/phone_trans_black.png");
-}
-#address {
-	list-style-image: url("../img/loc_trans_black.png");
+.website {
+	display: list-item;
 }

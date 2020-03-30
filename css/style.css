@@ -123,13 +123,17 @@ img.game {
 	text-align: center;
 }
 
-#email {
+.website {
+	display: none;
+	list-style-image: url("../img/website_trans.png");
+}
+.email {
 	list-style-image: url("../img/email_trans.png");
 }
-#phone {
+.phone {
 	list-style-image: url("../img/phone_trans.png");
 }
-#address {
+.address {
 	list-style-image: url("../img/loc_trans.png");
 }
 #email-link {
