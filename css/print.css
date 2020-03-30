@@ -1,0 +1,68 @@
+
+body {
+	background-color: #ffffff;
+	color: #000000;
+	font-family: courier;
+}
+
+.portfolio {
+	display: none !important;
+}
+
+
+a {
+	text-decoration: none;
+}
+ul {
+	background-color: #ffffff;
+	color: #000000;
+}
+#objective_p {
+	text-indent: 5%;
+}
+#refs {
+	text-indent: 5%;
+}
+#position {
+	text-indent: 5%;
+	background-color: #ffffff;
+	color: #000000;
+}
+h3, h2 {
+	background-color: #ffffff;
+	color: #000000;
+}
+p {
+	background-color: #ffffff;
+	color: #000000;
+}
+.hyperlink {
+	color: #550033;
+	background-color: #ffffff;
+	border-bottom: 1px solid #550033;
+}
+
+.resume {
+	width: 100%;
+	left: 0;
+	background-color: #ffffff;
+	color: #000000;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+#email-link {
+	background-color: #ffffff;
+	color: #000000;
+}
+
+
+#email {
+	list-style-image: url("../img/email_trans_black.png");
+}
+#phone {
+	list-style-image: url("../img/phone_trans_black.png");
+}
+#address {
+	list-style-image: url("../img/loc_trans_black.png");
+}
