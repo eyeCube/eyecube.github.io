@@ -4,6 +4,9 @@ body {
 	color: #ffbb77;
 	font-family: courier;
 }
+a {
+	text-decoration: none;
+}
 ul {
 	background-color: #160c00;
 }
@@ -60,6 +63,7 @@ p {
     display:flex;
     align-items:center;
     justify-content:center;
+    text-align:center;
  }
 .gamebox > img {
 	object-fit: fill;
@@ -110,12 +114,10 @@ img.game {
 	color: #002600;
 }
 #album_cover {
-	font-size: 2em;
-}
-#album_cover > a {
-	text-decoration: none;
 	color: #0088ff;
 	background-color: #002626;
+	font-size: 2em;
+	text-align: center;
 }
 
 #email {
@@ -128,7 +130,6 @@ img.game {
 	list-style-image: url("../img/loc_trans.png");
 }
 #email-link {
-	text-decoration: none;
 	background-color: #110c00;
 	color: #ffbb77;
 }
