@@ -31,6 +31,7 @@ p {
 .hyperlink {
 	color: #ff0088;
 	background-color: #220011;
+	border-bottom: 1px solid #ff0088;
 }
 
 .split {
