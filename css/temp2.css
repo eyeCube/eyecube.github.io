@@ -52,7 +52,7 @@ p {
 	display:grid;
 	grid-auto-flow: row;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
     overflow: auto;
     white-space: nowrap;
 }
@@ -65,7 +65,6 @@ p {
 	object-fit: fill;
  }
 img.game {
-	padding-top: 8px;
 	max-width: 23em;
 	max-height: 23em;
 	background-color: #000000;
@@ -83,21 +82,10 @@ img.game {
 	background-color: #002600;
 }
 .empire2 {
-	background-color: #260016;
-}
-.mendacity2 {
 	background-color: #000c26;
 }
-.cover {
-	background-color: #002626;
-}
-#album_cover {
-	font-size: 2em;
-}
-#album_cover > a {
-	text-decoration: none;
-	color: #0088ff;
-	background-color: #002626;
+.mendacity2 {
+	background-color: #260c00;
 }
 
 #email {
