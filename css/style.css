@@ -95,7 +95,7 @@ img.game {
 .cover {
 	background-color: #002626;
 }
-.endcap1 {
+.name {
 	background-color: #161616;
 }
 .endcap2 {
@@ -104,8 +104,10 @@ img.game {
 .endcap3 {
 	background-color: #002600;
 }
-#endcap1 {
-	color: #161616;
+#name {
+	color: #22a5ff;
+	text-align: center;
+	font-size: 2em;
 }
 #endcap2 {
 	color: #002626;
@@ -114,7 +116,7 @@ img.game {
 	color: #002600;
 }
 #album_cover {
-	color: #0088ff;
+	color: #22a5ff;
 	background-color: #002626;
 	font-size: 2em;
 	text-align: center;
