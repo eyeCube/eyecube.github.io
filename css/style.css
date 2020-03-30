@@ -4,6 +4,9 @@ body {
 	color: #ffbb77;
 	font-family: courier;
 }
+ul {
+	background-color: #160c00;
+}
 #objective_p {
 	text-indent: 5%;
 }
@@ -49,7 +52,7 @@ p {
 	display:grid;
 	grid-auto-flow: row;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
     overflow: auto;
     white-space: nowrap;
 }
@@ -74,14 +77,23 @@ img.game {
 }
 .zelda {
 }
+.empire2 {
+}
+.mendacity2 {
+}
 
 #email {
-	list-style-image: url("../img/email_sprite.png");
+	list-style-image: url("../img/email_trans.png");
 }
 #phone {
-	list-style-image: url("../img/phone_sprite.png");
+	list-style-image: url("../img/phone_trans.png");
 }
 #address {
-	list-style-image: url("../img/loc_sprite.png");
+	list-style-image: url("../img/loc_trans.png");
+}
+#email-link {
+	text-decoration: none;
+	background-color: #110c00;
+	color: #ffbb77;
 }
 
