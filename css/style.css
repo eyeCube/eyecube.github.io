@@ -52,7 +52,7 @@ p {
 	display:grid;
 	grid-auto-flow: row;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     overflow: auto;
     white-space: nowrap;
 }
@@ -90,6 +90,24 @@ img.game {
 }
 .cover {
 	background-color: #002626;
+}
+.endcap1 {
+	background-color: #161616;
+}
+.endcap2 {
+	background-color: #002626;
+}
+.endcap3 {
+	background-color: #002600;
+}
+#endcap1 {
+	color: #161616;
+}
+#endcap2 {
+	color: #002626;
+}
+#endcap3 {
+	color: #002600;
 }
 #album_cover {
 	font-size: 2em;
