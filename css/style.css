@@ -1,4 +1,9 @@
 
+@page { size: auto;  margin: 0mm; }
+#topmargin {
+	display: none;
+}
+
 body {
 	background-color: #000000;
 	color: #ffbb77;
@@ -28,13 +33,13 @@ h3, h2 {
 p {
 	background-color: #150f00;
 }
-hr {
-	display: none;
-}
 #topname1 {
 	display: block;
 }
 #topname2 {
+	display: none;
+}
+#line {
 	display: none;
 }
 

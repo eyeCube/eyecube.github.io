@@ -1,8 +1,13 @@
 
+#topmargin {
+	display: block;
+}
+
 body {
 	background-color: #ffffff;
 	color: #000000;
-	font-family: courier;
+	font-family: times;
+	margin: 0% 15% 0% 10%
 }
 
 .portfolio {
@@ -32,6 +37,9 @@ h3, h2 {
 	background-color: #ffffff;
 	color: #000000;
 }
+h3 {
+	font-size: 1.2em;
+}
 p {
 	background-color: #ffffff;
 	color: #000000;
@@ -47,15 +55,22 @@ p {
 }
 #topname2 {
 	display: block;
+	font-family: courier;
+	font-size: 1.5em;
+	transform: scale(1, 1.25);
 }
 #topname1 {
 	display: none;
 }
+#line {
+	display: block;
+	height: 1px;
+    border-top: 4px solid #909090;
+	margin-top: -16px;
+}
+
 #position {
 	display: none;
-}
-hr {
-	display: flex;
 }
 .hashtag {
 	display: none;
