@@ -112,6 +112,16 @@ p {
 	grid-template-rows: 1fr 1fr 1fr;
 }
 
+.hobbies {
+	page-break-before: always;
+}
+#hobbylist {
+	display: grid;
+	grid-auto-flow: row;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+}
+
 .bottom {
 	display: none;
 }
