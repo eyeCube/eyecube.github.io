@@ -3,6 +3,9 @@
 #topmargin {
 	display: none;
 }
+.pagebreak {
+	display: none;
+}
 
 body {
 	background-color: #000000;
