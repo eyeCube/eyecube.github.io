@@ -32,6 +32,7 @@ p {
 	color: #ff0088;
 	background-color: #220011;
 	border-bottom: 1px solid #ff0088;
+	font-weight: 500;
 }
 .resume {
 	left: 0;
@@ -143,8 +144,8 @@ img.game {
 	white-space: nowrap;
 }
 img.game {
-	max-width: 16em;
-	max-height: 16em;
+	max-width: 12em;
+	max-height: 12em;
 	background-color: #000000;
 }
 
