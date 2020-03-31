@@ -42,6 +42,25 @@ p {
 	border-bottom: 1px solid #550033;
 }
 
+#imadethis {
+	display: none;
+}
+#topname2 {
+	display: block;
+}
+#topname1 {
+	display: none;
+}
+#position {
+	display: none;
+}
+hr {
+	display: flex;
+}
+.hashtag {
+	display: none;
+}
+
 .resume {
 	width: 100%;
 	left: 0;
@@ -64,3 +83,17 @@ p {
 .website {
 	display: list-item;
 }
+
+#courselist {
+	display: grid;
+	grid-auto-flow: row;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+}
+#skilllist {
+	display: grid;
+	grid-auto-flow: row;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+}
+

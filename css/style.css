@@ -28,6 +28,16 @@ h3, h2 {
 p {
 	background-color: #150f00;
 }
+hr {
+	display: none;
+}
+#topname1 {
+	display: block;
+}
+#topname2 {
+	display: none;
+}
+
 .hyperlink {
 	color: #ff0088;
 	background-color: #220011;
