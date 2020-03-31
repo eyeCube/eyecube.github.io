@@ -137,6 +137,10 @@ img.game {
 	color: #ffbb77;
 }
 
+.bottom {
+	text-align: right;
+}
+
 /* default media style: mobile devices */
 .split {
 	height: 100%;
