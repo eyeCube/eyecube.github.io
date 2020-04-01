@@ -12,6 +12,8 @@ body {
 	color: #ffbb77;
 	font-family: courier;
 	overflow-x: hidden;
+}
+.section-resume {
 	margin: 0% 5% 0% 0%;
 }
 a {
@@ -180,7 +182,7 @@ img.game {
 
 @media only screen and (min-width: 600px) {
 	
-	body {
+	.section-resume {
 		margin: 0% 0% 0% 0%;
 	}
 	.split {
@@ -232,7 +234,7 @@ img.game {
 
 @media only screen and (min-width: 992px) {
 	
-	body {
+	.section-resume {
 		margin: 0% 0% 0% 0%;
 	}
 	.split {
