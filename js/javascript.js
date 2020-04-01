@@ -6,6 +6,11 @@ function printPage() {
     var element = document.getElementById("two-page-version-only");
 	element.style.opacity = op;
 	window.print();
+	if (element.style.display === "none")
+	{ 
+		op = 0;
+		element.style.opacity = op;
+	}
 }
 
 function toggleOneTwoPage() {
