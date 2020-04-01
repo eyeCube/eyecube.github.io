@@ -18,11 +18,9 @@ function toggleOneTwoPage() {
 	if (moreLess_busy)
 	{ return; }
 	moreLess_busy = true;
-	console.log("registered press.");
 	if (element.style.display === "none")
 	{ 
-		element.style.display = "block"; //
-		//element.style.opacity = 1; //
+		element.style.display = "block";
 		fadeInEffect();
 	}
 	else

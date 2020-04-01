@@ -17,6 +17,7 @@
 	<link rel="icon" href="img/email_trans_black.png">
 	
 	<script src="js/javascript.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 	<div class="split resume">
@@ -116,6 +117,14 @@
 			
 			<h3 class="references"><span class="hashtag"># </span>References</h3>
 			<p id="refs">Available upon request</p>
+			
+			<div id="placeholder1"></div>
+			<script>
+				$(document).ready(function() {
+					$('#placeholder1').load("blog/early.html");
+				});
+			</script>
+			
 			<p class="bottom">
 				<span id="one-page-version"><a class="hyperlink" href="javascript:;" onclick="toggleOneTwoPage()">More/Less</a></span> <b>|</b>
 				<a class="hyperlink" href="javascript:;" onclick="printPage()">Print this page</a>
