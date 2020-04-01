@@ -11,6 +11,8 @@ body {
 	background-color: #000000;
 	color: #ffbb77;
 	font-family: courier;
+	overflow-x: hidden;
+	margin: 0% 5% 0% 0%;
 }
 a {
 	text-decoration: none;
@@ -178,6 +180,9 @@ img.game {
 
 @media only screen and (min-width: 600px) {
 	
+	body {
+		margin: 0% 0% 0% 0%;
+	}
 	.split {
 		box-sizing: border-box;
 		overflow-x: hidden;
@@ -227,6 +232,9 @@ img.game {
 
 @media only screen and (min-width: 992px) {
 	
+	body {
+		margin: 0% 0% 0% 0%;
+	}
 	.split {
 		height: 100%;
 		width: 50%;
@@ -235,6 +243,9 @@ img.game {
 		top: 0;
 		overflow-x: auto;
 		box-sizing: border-box;
+	}
+	.resume {
+		margin: 0% 0% 0% 0%;
 	}
 	.portfolio {
 		right: 0;
