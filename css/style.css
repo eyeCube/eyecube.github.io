@@ -48,6 +48,12 @@ p {
 	border-bottom: 1px solid #ff0088;
 	font-weight: 500;
 }
+.ts {
+	font-weight: 700;
+	color: #ffddaa;
+	background-color: #251500;
+}
+
 .resume {
 	left: 0;
 	background-color: #110c00;
