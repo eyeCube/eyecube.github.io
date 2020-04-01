@@ -1,0 +1,23 @@
+// 404.md
+
+---
+permalink: /404.html
+---
+
+{{ define "body" }}
+  <main class="page-404" data-transition="fadeIn">
+    <div class="container">
+      <div class="page-404-content">
+        <h1>Error 404: Sorry, the page was not found.</h1>
+        <p>
+          The page you are looking for doesn’t exist.<br>
+          Please check your URL address.
+        </p>
+        <a class="go-home-button" href="{{ https://eyecube.github.io }}">
+          {{- i18n "goToHome" -}}
+        </a>
+      </div>
+    </div>
+  </main>
+{{ end }}
+

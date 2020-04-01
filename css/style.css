@@ -18,14 +18,10 @@ a {
 ul {
 	background-color: #160c00;
 }
-#objective_p {
-	text-indent: 5%;
-}
-#refs {
+p {
 	text-indent: 5%;
 }
 #position {
-	text-indent: 5%;
 	color: #33ffbb;
 	background-color: #00331a;
 }
@@ -255,19 +251,7 @@ img.game {
 		display: block;
 	}
 	
-	#courselist {
-		display: grid;
-		grid-auto-flow: row;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr 1fr;
-	}
-	#skilllist {
-		display: grid;
-		grid-auto-flow: row;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr 1fr 1fr;
-	}
-	#hobbylist {
+	.dual-bullet-list {
 		display: grid;
 		grid-auto-flow: row;
 		grid-template-columns: 1fr 1fr;

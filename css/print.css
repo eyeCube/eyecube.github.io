@@ -99,17 +99,11 @@ p {
 	display: list-item;
 }
 
-#courselist {
+.dual-bullet-list {
 	display: grid;
 	grid-auto-flow: row;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr 1fr;
-}
-#skilllist {
-	display: grid;
-	grid-auto-flow: row;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
 }
 
 /* page break */
@@ -119,13 +113,6 @@ p {
 }
 .pagebreak {
 	display: block;
-}
-
-#hobbylist {
-	display: grid;
-	grid-auto-flow: row;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr;
 }
 
 .bottom {
