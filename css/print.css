@@ -62,6 +62,14 @@ p {
 #topname1 {
 	display: none;
 }
+.pro {
+	display: block;
+	background-color: #ffffff;
+	color: #000000;
+}
+.transferable {
+	display: none;
+}
 #line {
 	display: block;
 	height: 1px;

@@ -39,7 +39,7 @@ function fadeOutEffect() {
 		if (element.style.opacity > 0)
 		{
 			element.style.opacity = op;
-			op -= 0.05;
+			op -= 0.03;
 		} 
 		else
 		{
@@ -47,7 +47,7 @@ function fadeOutEffect() {
 			element.style.display = "none";
 			moreLess_busy = false;
         }
-    }, 20);
+    }, 10);
 }
 function fadeInEffect() {
 	var op = 0;
@@ -57,13 +57,13 @@ function fadeInEffect() {
 		if (element.style.opacity < 1)
 		{ 
 			element.style.opacity = op;
-			op += 0.05;
+			op += 0.03;
 		}
 		else
 		{ 
 			clearInterval(fadeEffect);
 			moreLess_busy = false; 
 		}
-    }, 20);
+    }, 10);
 }
 
