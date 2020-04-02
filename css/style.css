@@ -7,6 +7,27 @@
 	display: none;
 }
 
+#navbar {
+	/*overflow: hidden;
+	position: absolute;*/
+	text-align: center;
+	display: block;
+	background-color: #220011;
+	padding: 5px 15px 5px 15px;
+	z-index: 1000;
+	top: 0;
+	width: 95%;
+}
+.navlink {
+	color: #ff0088;
+	background-color: #220011;
+	font-weight: 500;
+}
+.navlink:hover {
+	color: #ffddaa; /*highlight*/
+	background-color: #1f1200;
+}
+
 body {
 	background-color: #000000;
 	color: #ffbb77;
@@ -58,9 +79,10 @@ p {
 	border-bottom: 1px solid #ff0088;
 	font-weight: 500;
 }
+
 .ts {
 	font-weight: 700;
-	color: #ffddaa;
+	color: #ffddaa; /*highlight*/
 	background-color: #1f1200;
 }
 
@@ -183,7 +205,7 @@ img.game {
 	background-color: #000000;
 }
 
-@media only screen and (min-width: 600px) and (max-width: 992px) {
+@media only screen and (min-width: 700px) and (max-width: 992px) {
 	
 	.section-resume {
 		margin: 0% 0% 0% 0%;

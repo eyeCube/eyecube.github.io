@@ -29,23 +29,43 @@
 	<script src="js/javascript.js"></script>
 </head>
 <body>
+	<!-- resume split -->
 	<div class="split resume">
+	
+		<!-- nav bar -->
+		<br/>
+		<div id="nav-temp"></div>
+		<script>
+			$(document).ready(function() {
+				$('#nav-temp').load("navbar.html");
+			});
+		</script>
+		
+		<!-- resume -->
 		<section class="section-resume">
+			
 			<br id="topmargin"/>
+			<!-- name -->
 			<h2 id="topname1"><span class="hashtag"># </span>Jacob Wharton</h2>
+			<!-- position / goal -->
 			<p id="position"><b>Indie Game Developer. Aspiring Software Engineer.</b></p>
+			
+			<!-- contact info -->
 			<ul>
 				<a id="website-link" href="https://eyecube.github.io"><li class="website">eyecube.github.io</li></a>
 				<a id="email-link" href="mailto:eyecube1@protonmail.com"><li class="email">eyecube1@protonmail.com</li></a>
 				<li class="phone">850-524-9998</li>
 				<li class="address">2731 Blair Stone Rd Tallahassee FL, 32301</li>
 			</ul>
+			<!-- name 2: for professional version -->
 			<h2 id="topname2">Jacob Wharton</h2>
 			<hr id="line"/>
 			
+			<!-- career objective -->
 			<h3 class="objective"><span class="hashtag"># </span>Career Objective</h3>
 			<p id="objective_p">Innovative, detail-oriented FSU senior seeks entry level programming position. Passionate about game design with 10 years experience in indie development. Strengths in problem solving, creative thinking, rapid absorption of new skills and productivity with minimal supervision.</p>
 			
+			<!-- projects -->
 			<h3 class="projects"><span class="hashtag"># </span>Projects</h3>
 			<ul>
 				<li><a href="https://github.com/eyeCube/Softly-Roguelike" class="hyperlink" target="_blank"><i>Softly Into the Night</i></a>: 2+ years in development</li>
@@ -59,6 +79,7 @@
 				</ul>
 			</ul>
 			
+			<!-- education -->
 			<h3 class="education"><span class="hashtag"># </span>Education</h3>
 			<ul>
 				<li><span class="ts">Florida State University</span> (GPA: 3.4) Tallahassee, FL</li>
@@ -67,6 +88,7 @@
 				</ul>
 			</ul>
 			
+			<!-- courses -->
 			<h3 class="courses"><span class="hashtag"># </span>Relevant Coursework</h3>
 			<ul class="dual-bullet-list">
 				<li>Data Structures</li>
@@ -74,7 +96,8 @@
 				<li>Software Engineering</li>
 				<li>Programming Languages</li>
 			</ul>
-
+			
+			<!-- skills -->
 			<h3 class="skills"><span class="hashtag"># </span>Relevant Skills</h3>
 			<ul class="dual-bullet-list">
 				<li>Python</li>
@@ -84,6 +107,7 @@
 				<li>HTML & CSS <span id="imadethis">(<a class="hyperlink" href="https://eyecube.github.io">I made this</a>)</span></li>
 			</ul>
 			
+			<!-- experience -->
 			<h3 class="experience"><span class="hashtag"># </span>Work Experience</h3>
 			<ul>
 				<li><span class="ts">Licensed Massage Therapist:</span> Massage Envy -- July 2016 - May 2017</li>
@@ -91,7 +115,9 @@
 				<li><span class="ts">Cashier:</span> McDonald's -- October 2011 - April 2012</li>
 			</ul>
 			
+			<!-- extended version -->
 			<div id="two-page-version-only">
+				<!-- volunteer work -->
 				<h3 class="volunteer"><span class="hashtag"># </span>Volunteer Work</h3>
 				<ul>
 					<li>AmeriCorps -- 4 weeks</li>
@@ -104,6 +130,7 @@
 					</ul>
 				</ul>
 				
+				<!-- transferable skill -->
 				<h3 class="transferable"><span class="hashtag"># </span>Transferable Skills</h3>
 				<ul>
 					<li>Cashier: <span class="ts">Self-reflection</span>. Coping with setbacks.</li>
@@ -116,6 +143,7 @@
 					<li>Self-reflection: Examine assumptions & find <span class="ts">alternate solutions</span>.
 				</ul>
 				
+				<!-- hobbies -->
 				<h3 class="hobbies"><span class="hashtag"># </span>Hobbies</h3>
 				<ul class="dual-bullet-list">
 					<li>Game designer</li>
@@ -124,6 +152,7 @@
 				</ul>
 			</div>
 			
+			<!-- references -->
 			<h3 class="references"><span class="hashtag"># </span>References</h3>
 			<p id="refs">Available upon request</p>
 			
@@ -134,14 +163,18 @@
 				});
 			</script> -->
 			
+			<!-- bottom bar -->
 			<p class="bottom">
 				<a class="hyperlink" href="/blog.html">Developer Blog</a> <b>|</b>
 				<span id="one-page-version"><a class="hyperlink" href="javascript:;" onclick="toggleOneTwoPage()">More/Less</a></span> <b>|</b>
 				<a class="hyperlink" href="javascript:;" onclick="printPage()">Print this page</a>
 			</p>
 			<br/>
+			
 		</section>
 	</div>
+	
+	<!-- portfolio split -->
 	<div class="split portfolio">
 		<section class="gamebox cover">
 			<a href="https://github.com/eyeCube/" title="My GitHub account" target="_blank">
@@ -157,7 +190,7 @@
 			<a href="https://github.com/eyeCube/untitled-mage-platformer" title="untitled mage platformer (Game Maker)" target="_blank">
 				<img class="game platformer" src="img/platformer.png" alt="untitled mage platformer">
 			</a>
-		</section>
+		</section>		
 		<section class="gamebox zelda">
 			<a href="https://github.com/eyeCube/Zelda-Game-Maker-Project" title="Zelda project (Game Maker)" target="_blank">
 				<img class="game zelda" src="img/zelda2.png" alt="Zelda project">
@@ -182,6 +215,7 @@
 		<section class="gamebox endcap2"><h1 id="endcap2">#</h1></section>
 		<section class="gamebox endcap3"><h1 id="endcap3">#</h1></section>
 	</div>
+	
 </body>
 <footer>
 
