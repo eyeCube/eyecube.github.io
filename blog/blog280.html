@@ -1,0 +1,14 @@
+<p>Softly Into the Night</p>
+
+<p>This week I continued working on the changes to the combat system and the new body-part modeling system. I have run into several issues I need to work out.</p>
+
+<p>For one, I&#39;m not sure how to model strength. Currently there is a strength value for each muscle (one muscle corresponds to one limb, etc.) so one of your limbs can be stronger than another; also there is a strength stat which, being a stat, can be modified by effects like &quot;potions&quot; or whatever. The muscle data is not a stat so it can&#39;t be modified in this way. What I want is for you to be able to take a &quot;potion&quot; to temporarily increase/decrease the strength stat which would influence the global strength of all your muscles; and I also want you to be able to have a certain limb be stronger than others. So I figure this combo of the stat + the muscle data could give me those mechanics. But I&#39;m not sure how these two strengths will affect each other. Like when determining the strength of a certain maneuver, would you add the strength stat to the muscle strength to get the final strength value? Or perhaps both values need to exceed a certain amount in order for the strength to be adequate? Or maybe the values multiply together?</p>
+
+<p>In general this week I culled a bunch of useless / redundant data for the limb modeling system (mass of individual body parts/pieces are no longer stored, we just have one global mass stat and the mass of an individual body part can be calculated from the total mass and the body plan, etc.), but individual muscle strength is something I don&#39;t want to give up. One big reason is I want the player to be able to get cyborg limbs which are stronger than their regular human limbs. I&#39;m just not sure how to model this in the code. So far the additive method is most attractive to me.</p>
+
+<p>I made a bunch of other minor tweaks as well, but mostly just did more conceptual design work. Things are coming together bit by bit, and even though it&#39;s easy to get lost in the trees, I&#39;m beginning to see the forest as it were.</p>
+
+<p>You know, I should really keep a log of the changes I make, because so far I&#39;ve just been writing these SS&#39;s from memory and I&#39;ve surely forgotten some things. How do you guys keep track of each change from week to week?</p>
+
+<p>Thanks for reading :)</p>
+

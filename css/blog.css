@@ -1,0 +1,32 @@
+
+
+body {
+	background-color: #000000;
+	color: #ffbb77;
+	font-family: courier;
+	overflow-x: hidden;
+}
+#blog-section {
+	width: 50%;
+	margin: 0% 5% 0% 5%;
+}
+a {
+	text-decoration: none;
+}
+ul {
+	background-color: #160c00;
+}
+p {
+	text-indent: 5%;
+}
+#position {
+	color: #33ffbb;
+	background-color: #00331a;
+}
+h3, h2 {
+	color: #0088ff;
+	background-color: #000f2f;
+}
+p {
+	background-color: #150f00;
+}

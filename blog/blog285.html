@@ -1,0 +1,77 @@
+<p>Softly Into the Night</p>
+
+<p>Python / libtcod / esper</p>
+
+<p>Softly Into the Night: a futuristic, dystopian roguelike with Lovecraftian / survival elements being developed in Python, by Jacob Wharton. Turn-based, grid-based, procedurally-generated, ASCII UI.</p>
+
+<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+
+<p>Hi, fellow devs!</p>
+
+<p>This week I made some progress on the procedural level generation. Starting from scratch, I began implementing my algorithm, inspired by the interview on Brogue&#39;s level design (link: https://www.rockpapershotgun.com/2015/07/28/how-do-roguelikes-generate-levels/#more-303483 ).</p>
+
+<p>Of course, this is still in its very early stages, and I&#39;m not happy with how long it takes to generate a level currently. It&#39;s not that bad, only a few seconds, but still, when the generator becomes much more complex, I worry it will take a lot longer. Definitely going to have to do some more optimization.</p>
+
+<p>My generator currently is pretty simple. In a for loop, it picks a room to try to place in the map from a collection of room types which currently only include a couple: rectangle-room, conglomerate room (juxtaposed rectangles), and corridors (vertical, horizontal or diagonal nw-se or ne-sw); but I plan to have 9 different types of rooms including 2 types of corridors (the other is a &quot;drunken corridor&quot; that uses a weighted drunken walk algorithm to connect two doorways in separate rooms.</p>
+
+<p>The room has a random position and tries to fit somewhere in the map where it&#39;s not overlapping with any existing rooms, but is touching an existing room/corridor. This can mean one wall tile separates the rooms (perimeters are overlapping) or the perimeter overlaps with the area of the other room, in which case the room fuses to the other room. This is where doors would probably be added -- no doors are added yet, that will come soon. But anyway if the room doesn&#39;t fit, it adjusts its position a little and tries again. It does this 4 times and then gives up, continuing on to the next iteration where it picks a new room to try and place. If it did this way more than 4 times it would slow down the generator significantly, it seems faster to just create a new room and try again after a few failures.</p>
+
+<p>If the room fits, its floor-tile data is added into a temporary grid, and at the end this temporary grid is drawn onto the map grid. The data for the room it selects is also stored in a rooms array, which is useful for finding out if two rooms touch but don&#39;t overlap, because the Room objects store all the perimeter and area tiles.</p>
+
+<p>I&#39;m far from happy with it, but I&#39;d say this produces some halfway-decent results considering how early a stage it&#39;s in (and considering this is my first dungeon generation algorithm I&#39;ve ever written). But there are tons of glaring issues still. Here is how it looks now:</p>
+
+<p>https://ibb.co/jRmXzGD</p>
+
+<p>Although this picture doesn&#39;t show it very well, sometimes the algorithm produces a lot of dead-end corridors because of the nature of the corridors being able to be placed overlapping existing rooms. So, I came up with a solution to remove the dead-ends.</p>
+
+<p>My solution is this, in pseudo-code:</p>
+
+<p>Add every tile in the map into a list.</p>
+<p>Create an empty temporary list too.</p>
+<p>While the first list is not empty,</p>
+<p>&nbsp; &nbsp; iterate over every tile in the list:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; if this tile is a floor:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if this tile has exactly 3 wall neighbors in the 4 cardinal directions,</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; then this tile is a dead end. If we&#39;re a dead-end,</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; then fill in this tile with a wall,</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; next add the 4 cardinal adjacent tiles into the temporary list.</p>
+<p>&nbsp; &nbsp; Clear the first list, set the first list = the temporary list</p>
+<p>&nbsp; &nbsp; Clear the temporary list</p>
+
+<p>/* This checks each tile for whether it&#39;s a dead-end or not,</p>
+<p>and if it is, it fills it in, and then adds all 4 of its</p>
+<p>adjacent cardinal neighbors back into the list to check again,</p>
+<p>so that hallways can be filled in if they lead to a dead-end.</p>
+<p>This way we don&#39;t have to iterate over every tile in the grid</p>
+<p>every single iteration of the while loop.</p>
+<p>*/</p>
+<p>This produces some better results, but for some unknown reason, not all of the dead-ends end up actually being filled. I&#39;m pretty sure that some of them are but some remain... However, although I&#39;d like to know why, I&#39;m ok with this, as it&#39;s fine if some dead-ends still exist; I just didn&#39;t want there to be so many of them.</p>
+
+<p>After the dead-end removal:</p>
+
+<p>https://ibb.co/TPY6q7N</p>
+
+<p>Next up:</p>
+
+<p>adding more room types</p>
+
+<p>improving the algorithm to make fully-connected levels</p>
+
+<p>doors and secret doors</p>
+
+<p>dungeon features - staircases, terrain changes, stuff like furniture, statues, fountains, machines, etc.</p>
+
+<p>entities - monsters and people to populate the dungeon</p>
+
+<p>I also want to come up with a way to let me store the map data for every floor when the player leaves it, and then load it back into the tilemap object when you enter a floor (or generate a new floor on the fly if necessary). And right now the level loads the instant you bring up the game, but I&#39;m going to have a main menu that doesn&#39;t load anything in until you start a game.</p>
+
+<p>My goal with this generator is to produce &quot;organic&quot; dungeons, kind of like Brogue. The idea is to have dungeons that seem lived-in, like they have history to them. They aren&#39;t perfectly laid out in neat chunks; corridors connect rooms in haphazard ways, etc. As if the dungeon has had rooms added to it since it was first created -- additions which weren&#39;t necessarily planned in the original level layout. Maybe the &quot;dungeon&quot; was created for some purpose a long time ago, but since then it has fallen into disrepair and then repurposed as a hideout for some outlaws or something.</p>
+
+<p>Like all things in my RL, I can see myself spending so much time on the level generator, tweaking things, making my levels tell stories. For now though, I need to continue doing more broad-strokes changes which can be difficult for me as I tend to focus too much on details.</p>
+
+<p>Thanks for reading! I welcome any comments / questions / suggestions.</p>
+
+
+
+<p>Edit: haha, I noticed just now while working some more on the level generator that my code to remove all the dead-ends wasn&#39;t working after all, due to a stupid bug. So that&#39;s why it didn&#39;t seem to make much of a difference. I guess I was suffering from a serious case of confirmation bias until I got more data and realized there was still way too many dead-ends. But now as it turns out, there&#39;s still a huge problem with my &quot;solution.&quot; :) might post more info when I figure it out. I fixed it: https://ibb.co/C88pCK9</p>
+
