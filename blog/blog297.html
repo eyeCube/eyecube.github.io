@@ -1,26 +1,24 @@
-<p>Softly Into the Night</p>
-
-<p>Python | libtcod | esper | github</p>
 
 <p>Hello fellow RL devs. The past two weeks I&#39;ve fixed up a bunch of things I&#39;ve been putting off for a long time. There have also been some big changes.</p>
 
-<p>Progress</p>
+<h4>Progress</h4>
 
-<p>menus now support menu sizes larger than the screen height, using arrow keys/PgUp/PgDn/Home/End to scroll through the options</p>
+	<li>menus now support menu sizes larger than the screen height, using arrow keys/PgUp/PgDn/Home/End to scroll through the options</li>
 
-<p>refactored git directory to be slightly better</p>
+	<li>refactored git directory to be slightly better</li>
 
-<p>fixed a bunch of bugs</p>
+	<li>fixed a bunch of bugs</li>
 
-<p>finished implementing some old / small stuff that never got fixed in ECS version</p>
+	<li>finished implementing some old / small stuff that never got fixed in ECS version</li>
 
-<p>added gun mod data, some new components to support new mechanics</p>
+	<li>added gun mod data, some new components to support new mechanics</li>
+</ul>
 
-<p>Gun Mods</p>
+<h4>Gun Mods</h4>
 
 <p>Guns will be moddable with scopes, bipods, suppressors, straps, magazines, flashlights, lasers, grenade launchers, etc. I wrote stats for most of the basic moddable parts.</p>
 
-<p>New stats: camo, stealth, height.</p>
+<h4>New stats: camo, stealth, height.</h4>
 
 <p>Height was a variable of the body component, but now it&#39;s also a stat. You can increase your height past its base body height by wearing shoes or high-heels, etc., and can lower your height by crouching or lying prone, etc.</p>
 
@@ -44,21 +42,7 @@
 
 <p>Currently, hearing in Softly works by a simple A* pathfind search to the source of the sound (where each terrain type has its own sound dampening value), and if the distance along the path is less than your hearing value, you can hear it. I may add a random mechanic to that as well, I haven&#39;t thought about it yet. Stealth would effectively reduce the hearing value of the listener for the purposes of calculating if they can hear you.</p>
 
-<p>continued in comments per Reddit&#39;s character limit...</p>
-
-<p>Reply</p>
-<p>Share</p>
-<p>Save</p>
-<p>Edit</p>
-
-
-
-<p>level 2</p>
-<p>Delicatebutterfly1</p>
-<p>3 points</p>
-<p>&middot;</p>
-<p>1 month ago</p>
-<p>Dropping Weight</p>
+<br/>
 
 <p>Things have become rather complicated in my game. I believe this is what&#39;s called &quot;scope creep.&quot; The short version of the story is that, in general I have decided my game is to be an RPG first, and a simulation second; so I believe I will remove some of the more complex mechanics in favor of a more transparent and less-realistic system.</p>
 
@@ -70,7 +54,7 @@
 
 <p>I&#39;m excited though, about the prospect of being able to have large maps again. It was upsetting me, I think, feeling that I had to stick to small maps, so, I have already begun toying some with larger sized maps. That leads us to...</p>
 
-<p>Elevation</p>
+<h4>Elevation</h4>
 
 <p>With larger maps available to me now, I have been playing with the idea of having outdoor areas with diverse procedural terrain, which, in my mind, cannot exist without some indication of changes in elevation. But, I want this to be simple, and I&#39;m not sure how exactly I&#39;ll implement it, but here&#39;s what I&#39;ve been thinking.</p>
 

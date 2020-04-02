@@ -8,80 +8,58 @@
 
 <p>The BPC_ objects contain BP_ (Body Part) objects like BP_Arm, BP_Leg, etc. So the BPC_Arms sub-component has a list that contains each BP_Arm sub-component and also each BP_Hand sub-component. Further, each BP_ sub-component contains additional BPP_ objects (Body Part Pieces) like BPP_Artery, BPP_Bone, BPP_Muscle, etc. which are shared between all BP_ objects. Finally each BP_ object contains a Slot that allows it to equip an item that fits that particular slot (not shown in the diagram below). So in this way there is a hierarchy of components which can be summarized using the following:</p>
 
-<p>Body</p>
-
-<p>BPC_Arms</p>
-
-<p>BP_Arm</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone</p>
-
-<p>BP_Arm</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone</p>
-
-<p>BP_Hand</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone</p>
-
-<p>BP_Hand</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone</p>
-
-<p>BPC_Legs</p>
-
-<p>BP_Leg</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone</p>
-
-<p>BP_Leg</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone</p>
-
-<p>BP_Foot</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone</p>
-
-<p>BP_Foot</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone</p>
-
-<p>BPC_Heads</p>
-
-<p>BP_Head</p>
-
-<p>BPP_Bone (skull)</p>
-
-<p>BP_Face</p>
-
-<p>BPP_Bone (jaw)</p>
-
-<p>BP_Eyes</p>
-
-<p>quantity, quality</p>
-
-<p>BP_Neck</p>
-
-<p>BPP_Bone, BPP_Muscle, BPP_Artery</p>
-
-<p>BPC_Torso (core)</p>
-
-<p>BP_TorsoCore</p>
-
-<p>BPP_Muscle (abs), BPP_Artery, BPP_Guts, BPP_Lungs, BPP_Hearts</p>
-
-<p>BP_TorsoFront</p>
-
-<p>BPP_Muscle (pecs), BPP_Artery, BPP_Bone (ribs)</p>
-
-<p>BP_TorsoBack</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone (spine)</p>
-
-<p>BP_Hips</p>
-
-<p>BPP_Muscle, BPP_Artery, BPP_Bone (pelvis)</p>
-
+<ul>
+	<li>Body</li>
+	<ul>
+		<li>BPC_Arms</li>
+		<ul>
+			<li>BP_Arm</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+			<li>BP_Arm</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+			<li>BP_Hand</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+			<li>BP_Hand</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+		</ul>
+		
+		<li>BPC_Legs</li>
+		<ul>
+			<li>BP_Leg</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+			<li>BP_Leg</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+			<li>BP_Foot</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+			<li>BP_Foot</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+		</ul>
+		
+		<li>BPC_Heads</li>
+		<ul>
+			<li>BP_Head</li>
+			<ul><li>BPP_Bone (skull)</li></ul>
+			<li>BP_Face</li>
+			<ul><li>BPP_Bone (jaw)</li></ul>
+			<li>BP_Eyes</li>
+			<ul><li>quantity, quality</li></ul>
+			<li>BP_Neck</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone</li></ul>
+		</ul>
+		
+		<li>BPC_Torso (core)</li>
+		<ul>
+			<li>BP_TorsoCore</li>
+			<ul><li>BPP_Muscle (abs), BPP_Artery, BPP_Guts, BPP_Lungs, BPP_Hearts</li></ul>
+			<li>BP_TorsoFront</li>
+			<ul><li>BPP_Muscle (pecs), BPP_Artery, BPP_Bone (ribs)</li></ul>
+			<li>BP_TorsoBack</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone (spine)</li></ul>
+			<li>BP_Hips</li>
+			<ul><li>BPP_Muscle, BPP_Artery, BPP_Bone (pelvis)</li></ul>
+		</ul>
+	</ul>
+</ul>
 
 
 <p>This hierarchy will hopefully keep things organized enough in this rather complex modeling system. The only thing I&#39;m concerned with right now is that there may be a need for yet another level of abstraction to contain each Head in the BPC_Heads sub-component so that each head is not split into data about the face, eyes, neck, etc. This would make it easier to tell which neck belongs to which head, etc. But I&#39;m not sure what&#39;s the best way to model this, which is one of the reasons I haven&#39;t gotten much work done this week. Still trying to figure out this hierarchy as far as the code goes. For the sake of organization and simplicity, I may have settled on using too many objects to represent one entity, after all each BPP_Muscle, etc. is its own instance (itself containing info like strength, status of the muscle, fatigue, mass and material (e.g. you can get robot muscles)), so currently this model takes up a lot of memory. Fortunately it&#39;s not nearly as bad as it would be since I&#39;m using Python&#39;s slots syntax. Still, I&#39;m wondering if there&#39;s a better way to handle this.</p>

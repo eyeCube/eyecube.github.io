@@ -1,22 +1,13 @@
-<p>Softly Into the Night</p>
-
-<p>Python / tcod / esper</p>
-
-<p>GitHub repo</p>
-
-<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
 
 <p>My improved design of the level generation algorithm has been fully implemented. It&#39;s a solid base, I think, from which to continue and create some really interesting, unique maps. Being my own design, and 100% my own code, I feel that my algorithm generates levels that have a style reminiscent of traditional roguelikes while also appearing somewhat distinguished in its own way.</p>
 
-<p>Pictures:</p>
+<h4>Pictures:</h4>
 
-<p>Testing new &quot;Cross&quot; rooms: https://ibb.co/TWcz3gC</p>
+<p><a class="hyperlink" href="https://ibb.co/TWcz3gC">Testing new &quot;Cross&quot; rooms</a></p>
 
-<p>Rectangle rooms only: https://ibb.co/4fWR4DN</p>
+<p><a class="hyperlink" href="https://ibb.co/4fWR4DN">Rectangle rooms only</a></p>
 
-<p>With LOS: https://ibb.co/cCLQQsK</p>
-
-
+<p><a class="hyperlink" href="https://ibb.co/cCLQQsK">With LOS</a></p>
 
 <p>I will now briefly describe how the algorithm works. It implements a binary tree in which each room is a node and has 0-2 children. It recursively generates the room starting from an origin room placed somewhere in the middle of the map, then rolls for how many children it will have, and repeatedly tries (a certain number of times) to place those rooms within a certain distance from the parent room.</p>
 

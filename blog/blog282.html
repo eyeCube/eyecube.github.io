@@ -6,46 +6,45 @@
 
 <p>At any rate, I&#39;ve finally gotten the renderer to work again after procrastinating heavily for months. Of course in all this time I&#39;ve still gotten a lot of progress done, but now that the renderer works again I think I&#39;ll be able to make progress far more quickly since I will be able to test things better. I&#39;m not sure how many hours I&#39;ve spent chipping away at the countless bugs introduced in my gigantic version change, but it&#39;s finally done.</p>
 
-
-
-<p>Elemental Ro Sham Bo</p>
+<h4>Elemental Ro Sham Bo</h4>
 
 <p>I spent some time yesterday conceptually expanding a mechanic in my game which is still, like everything in this project, in its very early stages. Namely, elemental damage and resistances. Currently now there are 11 different types of damage planned (though this may change), each with its own resistance, and these are the following:</p>
 
-<p>Physical (G-forces, impact trauma, etc.)</p>
+<ul>
+	<li>Physical (G-forces, impact trauma, etc.)</li>
 
-<p>Has no associated meter - damage is instantaneous</p>
+	<li>Has no associated meter - damage is instantaneous</li>
 
-<p>Bleed (resistance to being cut)</p>
+	<li>Bleed (resistance to being cut)</li>
 
-<p>Pain (and stress, encompasses all negative emotion except fear)</p>
+	<li>Pain (and stress, encompasses all negative emotion except fear)</li>
 
-<p>Fire (heat)</p>
+	<li>Fire (heat)</li>
 
-<p>Cold (uses same temperature meter as fire damage)</p>
+	<li>Cold (uses same temperature meter as fire damage)</li>
 
-<p>Exposure (Bio-hazardous, chemical exposure, radiation, etc.)</p>
+	<li>Exposure (Bio-hazardous, chemical exposure, radiation, etc.)</li>
 
-<p>This one is unique in that there is only one resistance, but there are 3 meters for different types of exposure:</p>
+	<li>This one is unique in that there is only one resistance, but there are 3 meters for different types of exposure:</li>
 
-<p>Radiation (rads meter)</p>
+	<li>Radiation (rads meter)</li>
 
-<p>Exposure (chemical / irritant exposure meter)</p>
+	<li>Exposure (chemical / irritant exposure meter)</li>
 
-<p>Sickness (bio-hazard / toxin exposure meter)</p>
+	<li>Sickness (bio-hazard / toxin exposure meter)</li>
 
-<p>Electricity</p>
+	<li>Electricity</li>
 
-<p>Has no associated meter - damage is instantaneous</p>
+	<li>Has no associated meter - damage is instantaneous</li>
 
-<p>Rust (for metals that can rust)</p>
+	<li>Rust (for metals that can rust)</li>
 
-<p>Rot (for wood, etc. that can rot)</p>
+	<li>Rot (for wood, etc. that can rot)</li>
 
-<p>Water (mainly for electronics, etc.)</p>
+	<li>Water (mainly for electronics, etc.)</li>
 
-<p>Intimidation (fear damage)</p>
-
+	<li>Intimidation (fear damage)</li>
+</ul>
 
 
 <p>The table and the ro-sham-bo diagrams are below; first, here is a text description of my thought processes.</p>
@@ -57,61 +56,63 @@
 <p>In addition I considered a table to balance them further such that each has its own inherent strengths and weaknesses irrespective of the other elements. For example, chemicals have the longest duration (they stick around on the battlefield a very long time, and exposure meter reduces slowly) but they deal damage at a slow rate; electricity is the opposite, dealing damage extremely rapidly but having a very short or nonexistant duration; finally, fire is in the middle, lasting a good time and dealing decent damage over time.</p>
 
 
+<h4>The 3 primary elements related to one another:</h4>
 
-<p>The 3 primary elements related to one another:</p>
+<ul>
+	<li>Name|Duration|A.O.E.|Damage|</li>
 
-<p>Name|Duration|A.O.E.|Damage|</p>
+	<li>Fire|Med|Med|Med</li>
 
-<p>Fire|Med|Med|Med</p>
+	<li>Chems|High|High|Low</li>
 
-<p>Chems|High|High|Low</p>
-
-<p>Elec|Low|Low|High</p>
-
-
-
-<p>&nbsp;Elemental ro sham bo\*\*:</p>
-<p>Fire -&gt; Electricity -&gt; Chems -&gt; Fire</p>
-
-<p>(formatting makes it hard to show this as a cycle like I intended.)</p>
+	<li>Elec|Low|Low|High</li>
+</ul>
 
 
+<h4>&nbsp;Elemental ro sham bo**:</h4>
+<ul>
+<li>Fire -> Electricity -> Chems -> Fire</li>
 
-<p>The cycle is summarized as follows:</p>
-
-<p>Fire controls\* electricity.</p>
-
-<p>Electricity controls\* chemicals.</p>
-
-<p>Chemicals control\* fire.</p>
-<p>* &quot;Controls&quot; == the element is superior to the element it controls, meaning it can suppress that element, but also may enhance the power of that element. Electricity is inferior to fire and so its power is dominated by fire&#39;s presence; the power of fire is dominated by chemicals&#39; presence; and the power of chemicals is dominated by electricity&#39;s presence.</p>
-
-<p>** A note on other elements and their place in the cycle:</p>
-
-<p>Cold and Fire cancel each other out and never support one another.</p>
-
-<p>Water can stand in the place of chems (superior to fire, inferior to electricity).</p>
-
-<p>Rust and rot can stand in the place of fire (superior to electricity, inferior to chemicals / water). Fire also enhances rust and suppresses rot. Rust and rot both only suppress electricity.</p>
+<li>(formatting makes it hard to show this as a cycle like I intended.)</li>
+</ul>
 
 
-<p>Controlling natures, Detailed explanation:</p>
+<h4>The cycle is summarized as follows:</h4>
+
+<ul>
+	<li>Fire controls\* electricity.</li>
+
+	<li>Electricity controls\* chemicals.</li>
+
+	<li>Chemicals control\* fire.</li>
+	<ul><li>* &quot;Controls&quot; == the element is superior to the element it controls, meaning it can suppress that element, but also may enhance the power of that element. Electricity is inferior to fire and so its power is dominated by fire&#39;s presence; the power of fire is dominated by chemicals&#39; presence; and the power of chemicals is dominated by electricity&#39;s presence.</li></ul>
+
+	<li>** A note on other elements and their place in the cycle:</li>
+
+	<li>Cold and Fire cancel each other out and never support one another.</li>
+
+	<li>Water can stand in the place of chems (superior to fire, inferior to electricity).</li>
+
+	<li>Rust and rot can stand in the place of fire (superior to electricity, inferior to chemicals / water). Fire also enhances rust and suppresses rot. Rust and rot both only suppress electricity.</li>
+
+</ul>
+
+
+<h4>Controlling natures, Detailed explanation:</h4>
 
 <p>Fire may cause electric circuits to short; electricity may denature chemicals; chemicals may extinguish fire. But, likewise, aimed at the electricity rather than the source, fire may enhance electricity and fuse to form plasma; in the right application, electricity may mutate chemicals to more deadly forms; and, specific flammable types of chemicals may feed fire better than anything else.</p>
 
 <p>Loop bomb: a special elemental weapon that takes advantage of the enhancing nature of the 3 elements. Very difficult to achieve because the ratios must be perfect at every moment in order for the loop to continue enhancing in power, yet each step that it changes, the ratios are naturally thrown out of whack. Left alone, the elements generally have a tendency to want to cancel each other out instead of enhance one another, so this type of controlled explosion must be strictly manipulated by technology that is highly advanced in all three relevant areas (fire, chemicals and electricity).</p>
 
 
-
-<p>Note on elemental vs. non-elemental attacks</p>
+<h4>Note on elemental vs. non-elemental attacks</h4>
 
 <p>Elemental weapons take advantage of readily abundant elements in the world, so they are generally cheaper than guns. However, they are still not really cheap, and refilling fuel or power or chemical tanks can still be very expensive. Melee weapon combat is the cheapest, but also perhaps the most risky, as it puts your body in intimate contact with immediate danger.</p>
 
 <p>Elemental damage is also unique in that you cannot resist it without specific resistances to that element; regular AV / Protection doesn&#39;t help you at all against elemental attacks (with the exception of Bleed damage which is lumped with Physical). So this means that if a foe cannot be harmed by the physical firepower you have, you may just have to find an elemental weakness.</p>
 
 
-
-<p>Hypothetical battle scenario, using the elemental ro sham bo</p>
+<h4>Hypothetical battle scenario, using the elemental ro sham bo</h4>
 
 <p>You face a foe who wields a stun gun (electric type weapon) so you pull out a flamethrower and with it you target him, or specifically, his electrical weapon. You take some electric damage in the firefight but you catch the foe on fire and heat up his electrical machine to the point where it short-circuits and becomes unusable, so in response your foe pulls out a chemical weapon.</p>
 

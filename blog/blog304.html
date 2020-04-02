@@ -1,40 +1,37 @@
-<p>Softly Into the Night</p>
-
-<p>Python | libtcod | esper | github</p>
-
-<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
 
 <p>It&#39;s been a long time since I posted here; but, that doesn&#39;t mean I&#39;ve been idle. Lots of big changes have taken place in Softly in the recent weeks. However, rather than inundate you with a massive post detailing every little change, I&#39;ll spread out the updates over the coming weeks. This week, let&#39;s talk about one of the more recent updates: the dialogue system.</p>
 
-<p>New dialogue system</p>
+<h4>New dialogue system</h4>
 
 <p>This is an experimental system of dialogue that I have developed from scratch. I am not very well versed in dialogue systems, so this is certainly far from being well-designed. Regardless, I think that this system does some interesting things.</p>
 
-<p>Inspirations</p>
+<h4>Inspirations</h4>
 
 <p>Rather than having static dialogue that always shows the same messages on a loop each time you talk to an NPC, I wanted dialogue that felt more alive. I was inspired by Animal Crossing, how there were different personality types and each kind of felt like a consistent character. Another thing I loved is how characters could change their moods after interacting with the PC or NPCs -- it just all felt very alive. I&#39;m not sure how they did their dialogue, and mine is a lot different, but it was undoubtedly influenced by AC&#39;s system.</p>
 
 <p>I was also inspired by Morrowind&#39;s dialogue system and disposition system, which allows you to pick from a list of topics or choose to persuade or barter with them. I may go with keyword topics in the same way, but they will be hidden behind an &quot;ask questions&quot; dialogue option. But my system has more different types of dialogue, and (of course) much less overall dialogue. In the end, my system has elements of both Morrowind and Animal Crossing&#39;s dialogue systems.</p>
 
-<p>Permutations</p>
+<h4>Permutations</h4>
 
 <p>There are 16 different personality types in Softly. A character can have exactly one personality type, and that doesn&#39;t change over the course of their life, under normal circumstances. There are 8 traits, and 2 personalities for each trait, one scoring high in that trait, and the other low. The 8 traits are below, followed by the two respective personalities:</p>
 
-<p>Self esteem (proud vs. low self-esteem)</p>
+<ul>
+	<li>Self esteem (proud vs. low self-esteem)</li>
 
-<p>Agreeableness (argumentative vs. non-confrontational)</p>
+	<li>Agreeableness (argumentative vs. non-confrontational)</li>
 
-<p>Bashfulness (outgoing vs. shy)</p>
+	<li>Bashfulness (outgoing vs. shy)</li>
 
-<p>Independence (independent vs. codependent)</p>
+	<li>Independence (independent vs. codependent)</li>
 
-<p>Energy level (bubbly vs. low energy)</p>
+	<li>Energy level (bubbly vs. low energy)</li>
 
-<p>Motivation level (motivated vs. unmotivated)</p>
+	<li>Motivation level (motivated vs. unmotivated)</li>
 
-<p>Open-mindedness (relaxed vs. uptight)</p>
+	<li>Open-mindedness (relaxed vs. uptight)</li>
 
-<p>Acceptance (proactive vs. apathetic)</p>
+	<li>Acceptance (proactive vs. apathetic)</li>
+</ul>
 
 <p>Each personality type has a significant amount of unique dialogue that only they can say. But, all main personality types also share a core list of dialogue to draw from. Personality types have different compatibilities with other personalities, which affects the amount of disposition you gain and lose from interactions.</p>
 
@@ -46,7 +43,7 @@
 
 <p>Then, there are special cases, like the NPC may outright reject dialogue with you, or they can become angry with you, which are both technically whole extra pools of dialogue to draw from. There is some rare, humorous dialogue that will be uncommon to see. Other special cases for dialogue system itself, not necessarily the messages, are when, for instance, you try and beg to the proud personality type. They will almost always reject you, thinking that you have to work for what you earn.</p>
 
-<p>Conclusion</p>
+<h4>Conclusion</h4>
 
 <p>So all in all, I&#39;m satisfied with the system I came up with. It took a lot of time (I&#39;d say &lt; 24 hours) to write out enough text that I&#39;m happy with what I call a bare-minimum coverage for what I wanted. It&#39;s approximately 10,000 words of dialogue right now. I plan to fill it out some more later and just gradually add more over time when/if I think of anything.</p>
 

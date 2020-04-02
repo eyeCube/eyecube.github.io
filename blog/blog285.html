@@ -1,12 +1,6 @@
-<p>Softly Into the Night</p>
-
-<p>Python / libtcod / esper</p>
-
 <p>Softly Into the Night: a futuristic, dystopian roguelike with Lovecraftian / survival elements being developed in Python, by Jacob Wharton. Turn-based, grid-based, procedurally-generated, ASCII UI.</p>
 
-<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
-
-<p>Hi, fellow devs!</p>
+<h4>Hi, fellow devs!</h4>
 
 <p>This week I made some progress on the procedural level generation. Starting from scratch, I began implementing my algorithm, inspired by the interview on Brogue&#39;s level design (link: https://www.rockpapershotgun.com/2015/07/28/how-do-roguelikes-generate-levels/#more-303483 ).</p>
 
@@ -18,25 +12,33 @@
 
 <p>If the room fits, its floor-tile data is added into a temporary grid, and at the end this temporary grid is drawn onto the map grid. The data for the room it selects is also stored in a rooms array, which is useful for finding out if two rooms touch but don&#39;t overlap, because the Room objects store all the perimeter and area tiles.</p>
 
-<p>I&#39;m far from happy with it, but I&#39;d say this produces some halfway-decent results considering how early a stage it&#39;s in (and considering this is my first dungeon generation algorithm I&#39;ve ever written). But there are tons of glaring issues still. Here is how it looks now:</p>
-
-<p>https://ibb.co/jRmXzGD</p>
+<p>I&#39;m far from happy with it, but I&#39;d say this produces some halfway-decent results considering how early a stage it&#39;s in (and considering this is my first dungeon generation algorithm I&#39;ve ever written). But there are tons of glaring issues still. <a href="https://ibb.co/jRmXzGD">Here is how it looks now.</a></p>
 
 <p>Although this picture doesn&#39;t show it very well, sometimes the algorithm produces a lot of dead-end corridors because of the nature of the corridors being able to be placed overlapping existing rooms. So, I came up with a solution to remove the dead-ends.</p>
 
-<p>My solution is this, in pseudo-code:</p>
+<h4>My solution is this, in pseudo-code:</h4>
 
-<p>Add every tile in the map into a list.</p>
-<p>Create an empty temporary list too.</p>
-<p>While the first list is not empty,</p>
-<p>&nbsp; &nbsp; iterate over every tile in the list:</p>
-<p>&nbsp; &nbsp; &nbsp; &nbsp; if this tile is a floor:</p>
-<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if this tile has exactly 3 wall neighbors in the 4 cardinal directions,</p>
-<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; then this tile is a dead end. If we&#39;re a dead-end,</p>
-<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; then fill in this tile with a wall,</p>
-<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; next add the 4 cardinal adjacent tiles into the temporary list.</p>
-<p>&nbsp; &nbsp; Clear the first list, set the first list = the temporary list</p>
-<p>&nbsp; &nbsp; Clear the temporary list</p>
+<ol>
+	<li>Add every tile in the map into a list.</li>
+	<li>Create an empty temporary list too.</li>
+	<li>While the first list is not empty,</li>
+	<ol>
+		<li>iterate over every tile in the list:</li>
+		<ol>
+			<li>if this tile is a floor:</li>
+			<ol>
+				<li>if this tile has exactly 3 wall neighbors in the 4 cardinal directions,</li>
+				<ol>
+					<li>then this tile is a dead end. If we&#39;re a dead-end,</li>
+					<li>then fill in this tile with a wall,</li>
+					<li>next add the 4 cardinal adjacent tiles into the temporary list.</li>
+				</ol>
+			</ol>
+		</ol>
+		<li>Clear the first list, set the first list = the temporary list</li>
+		<li>Clear the temporary list</li>
+	</ol>
+</ol>
 
 <p>/* This checks each tile for whether it&#39;s a dead-end or not,</p>
 <p>and if it is, it fills it in, and then adds all 4 of its</p>
@@ -47,21 +49,21 @@
 <p>*/</p>
 <p>This produces some better results, but for some unknown reason, not all of the dead-ends end up actually being filled. I&#39;m pretty sure that some of them are but some remain... However, although I&#39;d like to know why, I&#39;m ok with this, as it&#39;s fine if some dead-ends still exist; I just didn&#39;t want there to be so many of them.</p>
 
-<p>After the dead-end removal:</p>
+<p><a class="hyperlink" href="https://ibb.co/TPY6q7N">After the dead-end removal</a></p>
 
-<p>https://ibb.co/TPY6q7N</p>
+<h4>Next up:</h4>
 
-<p>Next up:</p>
+<ul>
+	<li>adding more room types</li>
 
-<p>adding more room types</p>
+	<li>improving the algorithm to make fully-connected levels</li>
 
-<p>improving the algorithm to make fully-connected levels</p>
+	<li>doors and secret doors</li>
 
-<p>doors and secret doors</p>
+	<li>dungeon features - staircases, terrain changes, stuff like furniture, statues, fountains, machines, etc.</li>
 
-<p>dungeon features - staircases, terrain changes, stuff like furniture, statues, fountains, machines, etc.</p>
-
-<p>entities - monsters and people to populate the dungeon</p>
+	<li>entities - monsters and people to populate the dungeon</li>
+<ul>
 
 <p>I also want to come up with a way to let me store the map data for every floor when the player leaves it, and then load it back into the tilemap object when you enter a floor (or generate a new floor on the fly if necessary). And right now the level loads the instant you bring up the game, but I&#39;m going to have a main menu that doesn&#39;t load anything in until you start a game.</p>
 
@@ -71,7 +73,5 @@
 
 <p>Thanks for reading! I welcome any comments / questions / suggestions.</p>
 
-
-
-<p>Edit: haha, I noticed just now while working some more on the level generator that my code to remove all the dead-ends wasn&#39;t working after all, due to a stupid bug. So that&#39;s why it didn&#39;t seem to make much of a difference. I guess I was suffering from a serious case of confirmation bias until I got more data and realized there was still way too many dead-ends. But now as it turns out, there&#39;s still a huge problem with my &quot;solution.&quot; :) might post more info when I figure it out. I fixed it: https://ibb.co/C88pCK9</p>
+<p>Edit: haha, I noticed just now while working some more on the level generator that my code to remove all the dead-ends wasn&#39;t working after all, due to a stupid bug. So that&#39;s why it didn&#39;t seem to make much of a difference. I guess I was suffering from a serious case of confirmation bias until I got more data and realized there was still way too many dead-ends. But now as it turns out, there&#39;s still a huge problem with my &quot;solution.&quot; :) might post more info when I figure it out. Edit: <a href="https://ibb.co/C88pCK9" class="hyperlink">I fixed it.</a></p>
 

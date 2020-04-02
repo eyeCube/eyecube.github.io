@@ -6,9 +6,7 @@
 
 <p>I have done a lot of work to get things running behind the scenes in a very adaptable way. The player has a good bit of options already to change the gaming experience, such as by swapping the tileset out for a custom one, changing any of the colors in the game (the RGB values for the colors), key bindings with any combination of ctrl, alt, and shift, you get the picture. On to more interesting aspects: the mechanics.</p>
 
-<p>I have a simple combat system based on the following stats: High energy, low energy, hit, power, dodge, armor, and speed (divided into general speed, movement speed, and attack speed).</p>
-
-<p>High energy is like MP, low energy is like HP. More on that in the log.</p>
+<p>I have a simple combat system based on the following stats: High energy, low energy, hit, power, dodge, armor, and speed (divided into general speed, movement speed, and attack speed). High energy is like MP, low energy is like HP. More on that in the log.</p>
 
 <p>The speed system is an energy system in which actors take turns expending their energy until they have 0 or less. The more general speed they have, the more action points they gain per turn. Actions have fixed costs or costs dependent on a formula.</p>
 
@@ -22,37 +20,27 @@
 
 <p>5-2-18 -Updated rendering system with new lighting map to allow &quot;patches&quot; of light from various light sources, with light radius and sight radius being separate. Adds a very nice dark feel, where you want to stay close to the light sources so you can see further. Walking into the dark without a torch is very foolish...</p>
 
-<p>-Night vision, a boolean variable which, if toggled on, allows the creature to see even in 0 light level.</p>
-
-<p>5-3-18 -Made colors changeable by settings.txt</p>
-
-<p>-Updated the HUD to be adaptive to screen size changes. No more HP bars.</p>
+<ul>
+	<li>-Night vision, a boolean variable which, if toggled on, allows the creature to see even in 0 light level.</li>
+	<li>5-3-18 -Made colors changeable by settings.txt</li>
+	<li>-Updated the HUD to be adaptive to screen size changes. No more HP bars.</li>
+</ul>
 
 <p>-Redesigned HP/MP system. &quot;Lo&quot; and &quot;Hi&quot; Energy are the primary stats. They have no hard maximum. Low energy is like HP, and is replenished by eating. It is damaged by physical attacks. It is like your gross physical body and physical health. High energy is like mental or spiritual health, and can be damaged by certain foes. It is replenished by drinking or bathing in water. It may be used to cast spells.</p>
 
-<p>-Added the two primary status effect types: fire and biological damage, and resistances for each thing in the game.</p>
-
-<p>5-4-18</p>
-
-<p>-Sounds are now implemented and listened for by all creatures.</p>
-
-<p>-Events happening may be seen or heard by the player, or neither, in which case no text appears in the message log.</p>
-
-<p>-Silhouettes of monsters backlit by lit-up tiles are now visible as question marks &quot;?&quot;.</p>
-
-<p>-Added corpses</p>
-
-<p>-Greatly improved flow of rendering function</p>
-
-<p>-Implementing fires...</p>
-
-<p>-Fixed horrible bugs!</p>
-
-<p>Edit: here are some pictures. The sound system is working now!</p>
-
-<p>pic1 pic2 pic3</p>
-
-<p>Mirror (Imgur): pics</p>
+<ul>
+	<li>-Added the two primary status effect types: fire and biological damage, and resistances for each thing in the game.</li>
+	<li>5-4-18</li>
+	<li>-Sounds are now implemented and listened for by all creatures.</li>
+	<li>-Events happening may be seen or heard by the player, or neither, in which case no text appears in the message log.</li>
+	<li>-Silhouettes of monsters backlit by lit-up tiles are now visible as question marks &quot;?&quot;.</li>
+	<li>-Added corpses</li>
+	<li>-Greatly improved flow of rendering function</li>
+	<li>-Implementing fires...</li>
+	<li>-Fixed horrible bugs!</li>
+	<li>Edit: here are some pictures. The sound system is working now!</li>
+	<li><a class="hyperlink" href="https://imgur.com/gallery/SfPdNNJ">Mirror (Imgur) pics</a></li>
+</ul>
 
 <p>This is just a little test area. The terrain is randomly generated using a custom modified drunken walk algorithm. There is a campfire nearby the starting area and a few monsters with basic AIs.</p>
 
