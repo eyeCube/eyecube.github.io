@@ -26,7 +26,26 @@
 .navlink:hover {
 	color: #ffddaa; /*highlight*/
 	background-color: #1f1200;
+	border-bottom: 1px solid #ffddaa;
 }
+.hyperlink {
+	color: #ff0088;
+	background-color: #220011;
+	border-bottom: 1px solid #ff0088;
+	font-weight: 500;
+}
+.hyperlink:hover {
+	color: #ffddaa; /*highlight*/
+	background-color: #1f1200;
+	border-bottom: 1px solid #ffddaa;
+}
+
+.ts {
+	font-weight: 700;
+	color: #ffddaa; /*highlight*/
+	background-color: #1f1200;
+}
+
 
 body {
 	background-color: #000000;
@@ -71,19 +90,6 @@ p {
 }
 #line {
 	display: none;
-}
-
-.hyperlink {
-	color: #ff0088;
-	background-color: #220011;
-	border-bottom: 1px solid #ff0088;
-	font-weight: 500;
-}
-
-.ts {
-	font-weight: 700;
-	color: #ffddaa; /*highlight*/
-	background-color: #1f1200;
 }
 
 .resume {
