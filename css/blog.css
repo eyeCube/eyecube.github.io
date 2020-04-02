@@ -1,5 +1,5 @@
 
-
+	
 body {
 	background-color: #000000;
 	color: #ffbb77;
@@ -7,7 +7,7 @@ body {
 	overflow-x: hidden;
 }
 #blog-section {
-	width: 50%;
+	width: 90%;
 	margin: 0% 5% 0% 5%;
 }
 a {
@@ -30,3 +30,22 @@ h3, h2 {
 p {
 	background-color: #150f00;
 }
+
+@media only screen and (min-width: 600px) {
+	
+	#blog-section {
+		width: 75%;
+		margin: 0% 5% 0% 5%;
+	}
+	
+}
+
+@media only screen and (min-width: 992px) {
+	
+	#blog-section {
+		width: 50%;
+		margin: 0% 5% 0% 5%;
+	}
+	
+}
+

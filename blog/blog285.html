@@ -2,7 +2,7 @@
 
 <h4>Hi, fellow devs!</h4>
 
-<p>This week I made some progress on the procedural level generation. Starting from scratch, I began implementing my algorithm, inspired by the interview on Brogue&#39;s level design (link: https://www.rockpapershotgun.com/2015/07/28/how-do-roguelikes-generate-levels/#more-303483 ).</p>
+<p>This week I made some progress on the procedural level generation. Starting from scratch, I began implementing my algorithm, inspired by the <a class="hyperlink href="https://www.rockpapershotgun.com/2015/07/28/how-do-roguelikes-generate-levels/#more-303483">interview on Brogue&#39;s level design</a>.</p>
 
 <p>Of course, this is still in its very early stages, and I&#39;m not happy with how long it takes to generate a level currently. It&#39;s not that bad, only a few seconds, but still, when the generator becomes much more complex, I worry it will take a lot longer. Definitely going to have to do some more optimization.</p>
 
@@ -12,7 +12,7 @@
 
 <p>If the room fits, its floor-tile data is added into a temporary grid, and at the end this temporary grid is drawn onto the map grid. The data for the room it selects is also stored in a rooms array, which is useful for finding out if two rooms touch but don&#39;t overlap, because the Room objects store all the perimeter and area tiles.</p>
 
-<p>I&#39;m far from happy with it, but I&#39;d say this produces some halfway-decent results considering how early a stage it&#39;s in (and considering this is my first dungeon generation algorithm I&#39;ve ever written). But there are tons of glaring issues still. <a href="https://ibb.co/jRmXzGD">Here is how it looks now.</a></p>
+<p>I&#39;m far from happy with it, but I&#39;d say this produces some halfway-decent results considering how early a stage it&#39;s in (and considering this is my first dungeon generation algorithm I&#39;ve ever written). But there are tons of glaring issues still. <a class="hyperlink" href="https://ibb.co/jRmXzGD">Here is how it looks now.</a></p>
 
 <p>Although this picture doesn&#39;t show it very well, sometimes the algorithm produces a lot of dead-end corridors because of the nature of the corridors being able to be placed overlapping existing rooms. So, I came up with a solution to remove the dead-ends.</p>
 

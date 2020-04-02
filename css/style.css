@@ -33,6 +33,9 @@ h2, h3, h4 {
 	color: #0088ff;
 	background-color: #000f2f;
 }
+h4 {
+	text-indent: 10%;
+}
 p {
 	background-color: #150f00;
 }
