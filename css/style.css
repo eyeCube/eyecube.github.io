@@ -34,7 +34,7 @@ h2, h3, h4 {
 	background-color: #000f2f;
 }
 h4 {
-	text-indent: 10%;
+	padding-left: 10%;
 }
 p {
 	background-color: #150f00;
@@ -183,7 +183,7 @@ img.game {
 	background-color: #000000;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 600px) and (max-width: 992px) {
 	
 	.section-resume {
 		margin: 0% 0% 0% 0%;
@@ -261,8 +261,8 @@ img.game {
 		grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 	}
 	img.game {
-		max-width: 23em;
-		max-height: 23em;
+		max-width: 16em;
+		max-height: 16em;
 		background-color: #000000;
 	}
 	#name {
@@ -281,6 +281,26 @@ img.game {
 		grid-auto-flow: row;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr 1fr;
+	}
+	
+}
+
+/* keep increasing size of portolio pictures as screen size increases */
+
+@media only screen and (min-width: 1200px) {
+	
+	img.game {
+		max-width: 20em;
+		max-height: 20em;
+	}
+	
+}
+
+@media only screen and (min-width: 1400px) {
+	
+	img.game {
+		max-width: 23em;
+		max-height: 23em;
 	}
 	
 }

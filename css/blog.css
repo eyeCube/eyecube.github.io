@@ -30,21 +30,54 @@ h3, h2 {
 p {
 	background-color: #150f00;
 }
+.blogblock {
+	background-color: #250015;
+	overflow-x: hidden;
+	padding: 0% 5% 0% 5%;
+}
+br {
+	display: block;
+	margin: 32px 0;
+	content: " ";
+	line-height: 32px;
+}
+#table-of-contents {
+	width: 40%;
+}
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 600px) and (max-width: 992px) {
 	
 	#blog-section {
-		width: 75%;
+		width: 80%;
 		margin: 0% 5% 0% 5%;
+	}
+	#table-of-contents {
+		width: 33%;
 	}
 	
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+	
+	#blog-section {
+		width: 65%;
+		margin: 0% 5% 0% 5%;
+	}
+	#table-of-contents {
+		width: 30%;
+	}
+	
+	
+}
+
+@media only screen and (min-width: 1200px) {
 	
 	#blog-section {
 		width: 50%;
 		margin: 0% 5% 0% 5%;
+	}
+	#table-of-contents {
+		width: 25%;
 	}
 	
 }
