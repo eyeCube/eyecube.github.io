@@ -50,6 +50,10 @@ p {
 	border-bottom: 1px solid #550033;
 }
 
+#topbar {
+	display: none;
+}
+
 #imadethis {
 	display: none;
 }
