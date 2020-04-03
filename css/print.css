@@ -71,9 +71,6 @@ p {
 	background-color: #ffffff;
 	color: #000000;
 }
-.transferable {
-	display: none;
-}
 #line {
 	display: block;
 	height: 1px;
