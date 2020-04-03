@@ -135,7 +135,7 @@ p {
 }
 
 /* page break */
-.volunteer {
+.experience { /*.volunteer*/
 	margin-top: 2em;
 	page-break-before: always;
 }
