@@ -1,4 +1,4 @@
 # eyecube.github.io
-Resume by Jacob Wharton
+Resume / ePortfolio by Jacob Wharton
 
-Go to eyecube.github.io to see the resume.
+Go to http://eyecube.github.io to view the resume/portfolio.
