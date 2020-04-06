@@ -15,11 +15,11 @@ Equipment can be usually worn in only one slot, and it may or may not take up ad
 
 Due to the highly flexible ECS system, however, it is possible for gear to be equippable in multiple different slots, and to have different bonuses for those different slots. This is sort of unrelated, but a lot of headwear can double as a makeshift throwing weapon, too.<br/>
 
-As a reminder: the way stats are calculated in Softly is as follows: any time something that affects stats is changed in the player's components, a dirty_stats flag is set. Then when we access the stats, we check if that flag is on. If it is on, we first calculate all our stats based on all the components the entity has. This system allows me to easily ensure that glitches from equipping / deequipping items in particular orders and such are never an issue. It honestly makes dealing with modified stats so much easier. A user on this subreddit recommended this system and I can't thank them enough for the excellent suggestion.</p>
+As a reminder: the way stats are calculated in Softly is as follows: any time something that affects stats is changed in the player's components, a dirty_stats flag is set. Then when we access the stats, we check if that flag is on. If it is on, we first calculate all our stats based on all the components the entity has. This system allows me to easily ensure that glitches from equipping / deequipping items in particular orders and such are never an issue. It honestly makes dealing with modified stats so much easier. A user on the RoguelikeDev subreddit recommended this system and I can't thank them enough for the excellent suggestion.</p>
 
 <h4>Fitted Gear</h4>
 
-<p>Gear and weapons can be "fitted" to an entity, making it fit them a lot better, which reduces the amount of encumberance the gear gives you while worn/wielded. To get a piece of gear fitted you can fit it yourself, which requires a certain level of armorsmithing skill and material-specific crafting skill (e.g. metalcraft for metal armors), or you can have it fitted to you by an NPC armorsmith. Fitting is implemented, but crafting fitted items / purchasing fitted service is not yet implemented.</p>
+<p>Gear and weapons can be "fitted" to an entity, making it fit them a lot better, which reduces the amount of encumberance the gear gives you while worn/wielded. To get a piece of gear fitted you can fit it yourself, which requires a certain level of armorsmithing skill and material-specific crafting skill (e.g. metalcraft for metal armors), or you can have it fitted to you by an NPC armorsmith. Fitting is implemented, but crafting fitted items / purchasing fitting services is not yet implemented.</p>
 
 <h4>Crafting</h4>
 
