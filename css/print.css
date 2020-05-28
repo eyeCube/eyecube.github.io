@@ -134,16 +134,31 @@ p {
 	grid-template-rows: 1fr 1fr;
 }
 
-/* page break */
 .experience { /*.volunteer*/
+
+}
+.courses { /*.relevant coursework*/
 	margin-top: 2em;
+/* page break */
 	page-break-before: always;
 }
 .pagebreak {
 	display: block;
 }
 
+#endbreak {
+	display: none;
+}
+
 .bottom {
+	display: none;
+}
+
+.details {
+	display: block;
+}
+
+.transferable {
 	display: none;
 }
 

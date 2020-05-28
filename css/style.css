@@ -211,6 +211,13 @@ img.game {
 	background-color: #000000;
 }
 
+.transferable {
+	display: none;
+}
+.transferable-list {
+	display: none;
+}
+
 @media only screen and (min-width: 700px) and (max-width: 992px) {
 	
 	.section-resume {
