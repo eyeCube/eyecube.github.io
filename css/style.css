@@ -217,6 +217,25 @@ img.game {
 .transferable-list {
 	display: none;
 }
+.transferable-dev {
+	display: none;
+}
+.transferable-list-dev {
+	display: none;
+}
+.course-bullet-list {
+	display: none;
+}
+.courses-dev {
+	display: none;
+}
+
+.references {
+	display: none;
+}
+#refs {
+	display: none;
+}
 
 @media only screen and (min-width: 700px) and (max-width: 992px) {
 	
@@ -311,6 +330,20 @@ img.game {
 		display: block;
 	}
 	
+	.course-bullet-list {
+		display: none;
+		/*
+		display: grid;
+		grid-auto-flow: row;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr 1fr;*/
+	}
+	.courses-dev {
+		display: none;
+	}
+	.skill-bullet-list {
+		display: block;
+	}
 	.dual-bullet-list {
 		display: grid;
 		grid-auto-flow: row;

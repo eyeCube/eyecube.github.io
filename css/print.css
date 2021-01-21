@@ -127,20 +127,27 @@ p {
 	display: list-item;
 }
 
-.dual-bullet-list {
+.course-bullet-list {
+	display: none;
+	/*
 	display: grid;
 	grid-auto-flow: row;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;*/
 }
 
 .experience { /*.volunteer*/
 
 }
 .courses { /*.relevant coursework*/
+/*
 	margin-top: 2em;
-/* page break */
-	page-break-before: always;
+	page-break-before: always;*/
+}
+.courses-dev { /*.relevant coursework*/
+	display: none;
+	/*margin-top: 2em;
+	page-break-before: always;*/
 }
 .pagebreak {
 	display: block;
