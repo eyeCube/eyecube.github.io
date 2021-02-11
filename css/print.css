@@ -136,13 +136,17 @@ p {
 	grid-template-rows: 1fr 1fr;*/
 }
 
+.workexp { /*.work experience*/
+
+	margin-top: 2em;
+	page-break-before: always;
+}
+
 .experience { /*.volunteer*/
 
 }
 .courses { /*.relevant coursework*/
-/*
-	margin-top: 2em;
-	page-break-before: always;*/
+
 }
 .courses-dev { /*.relevant coursework*/
 	display: none;
